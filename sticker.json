@@ -1,0 +1,11 @@
+{
+	"uri":"sticker.json",
+	"name":"AR Sticker",
+	"size":{
+		"width": 177,
+		"height": 262
+	},
+	"scale": 1,
+	"image":"./assets/galaxy.jpg",
+	"information":{}
+}

@@ -1,0 +1,647 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  font-family: "Noto Sans", sans-serif;
+  box-sizing: border-box;
+  color: #f0f0f0;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+#dummy {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -10000;
+  display: none;
+}
+#dummy img {
+  width: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#topMenu {
+  width: 1000px;
+  height: 560px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1px;
+}
+
+.topBackground {
+  background: rgba(28, 28, 28, 0.8);
+  width: 85%;
+  height: 85%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  padding: 40px;
+}
+
+.poweredby {
+  position: absolute;
+  bottom: 4em;
+  text-align: center;
+  width: 100%;
+  left: 0;
+}
+
+strong {
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 38em;
+}
+
+p {
+  font-size: 14em;
+  line-height: 1.4;
+}
+
+p.lt {
+  font-size: 27em;
+}
+
+.imgCell img {
+  width: 100%;
+}
+
+.textCell {
+  box-sizing: border-box !important;
+}
+
+.close {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.5;
+}
+.close:hover {
+  opacity: 1;
+}
+.close:before, .close:after {
+  position: absolute;
+  left: 15px;
+  content: " ";
+  height: 33px;
+  width: 2px;
+  background-color: #fff;
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
+}
+
+header {
+  background: rgba(36, 35, 33, 0.79);
+  text-align: center;
+  position: fixed;
+  padding: 10px;
+  letter-spacing: -0.2px;
+  width: 100%;
+  left: 0;
+  top: 0;
+  display: none;
+}
+header .close {
+  right: 12px;
+  top: 12px;
+  width: 27px;
+  height: 27px;
+}
+header .close:before, header .close:after {
+  height: 23px;
+}
+header .chapterTitle {
+  font-size: 16px;
+}
+header h1 {
+  font-size: 23px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  margin-top: 5px;
+}
+header #chapterBody {
+  font-size: 18px;
+}
+header ul {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 4%;
+}
+header ul li {
+  width: 80px;
+  height: 35px;
+  border: 1px solid #fff;
+  border-radius: 50px;
+  line-height: 30px;
+  font-size: 14px;
+}
+header ul li#prev {
+  float: left;
+}
+header ul li#next {
+  float: right;
+}
+#menu {
+  text-align: center;
+}
+#menu h1 {
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+#menu .lt {
+  margin-bottom: 3.5em;
+}
+#menu ul li {
+  display: inline-block;
+  width: 30%;
+  background: #f00;
+  height: 5em;
+  margin: 0 1.5%;
+  font-size: 20em;
+  line-height: 5em;
+  border-radius: 0.5em;
+  background-color: rgba(0, 172, 203, 0.81);
+}
+#overview {
+  display: none;
+}
+#overview .close {
+  padding: 20px;
+  box-sizing: content-box;
+  right: 0px;
+  top: 0px;
+}
+#overview .close:before, #overview .close:after {
+  left: 35px;
+}
+#overview #tabs ul {
+  margin-bottom: 40px;
+}
+#overview #tabs ul li {
+  display: inline-block;
+  font-size: 18em;
+  padding: 1em;
+  background: rgba(0, 172, 203, 0.8);
+  border-radius: 0.5em;
+  margin-right: 0.5em;
+}
+#overview #tabs ul li.ui-state-active {
+  background: rgba(73, 63, 151, 0.8);
+}
+#overview #tabs .tabItem .imgCell {
+  width: 30%;
+  margin-right: 3%;
+  float: left;
+}
+#overview #tabs .tabItem .textCell {
+  float: left;
+  width: 67%;
+  max-height: 300px;
+  padding-right: 40px;
+  box-sizing: border-box !important;
+}
+#overview #tabs .tabItem .textCell h3 {
+  font-size: 20em;
+  font-weight: 700;
+  margin-bottom: 1em;
+}
+#overview #tabs .tabItem .textCell p {
+  font-size: 20em;
+}
+#overview #tabs-1 dl {
+  font-size: 22em;
+  padding: 10px 40px;
+}
+#overview #tabs-1 dl dt, #overview #tabs-1 dl dd {
+  margin-bottom: 1em;
+}
+#overview #tabs-1 dl dt {
+  font-weight: 700;
+  float: left;
+  clear: left;
+  width: 20%;
+}
+#overview #tabs-3 .textCell {
+  width: 100% !important;
+}
+#watchPoint {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+#watchPoint article {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+#watchPoint #chapter-2 {
+  text-align: center;
+}
+#watchPoint #chapter-2 .inner {
+  background: rgba(83, 83, 83, 0.8);
+  height: 100%;
+  width: 100%;
+}
+#watchPoint #chapter-2 .text {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-80%);
+}
+#watchPoint #chapter-2 .cropImage {
+  position: absolute;
+  width: 100%;
+  top: 370px;
+  left: 0;
+}
+#watchPoint #chapter-2 .cropImage img {
+  display: block;
+  margin: 0 auto;
+  width: 890px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.71);
+}
+#watchPoint #chapter-2 p {
+  font-size: 19em;
+}
+#watchPoint #chapter-2 .title {
+  font-size: 25em;
+  margin-bottom: 1.2em;
+}
+#watchPoint #chapter-2 .title strong {
+  font-size: 1.5em;
+  font-weight: 400;
+}
+#watchPoint #chapter-2 .title em {
+  color: #e94a09;
+}
+#watchPoint #chapter-3 ul li {
+  font-size: 25em;
+  position: absolute;
+  padding: 0.5em;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.6);
+  background-color: #d1d1d1;
+}
+#watchPoint #chapter-3 ul li#itembtn01 {
+  top: 200px;
+  left: 10px;
+}
+#watchPoint #chapter-3 ul li#itembtn02 {
+  top: 170px;
+  left: 210px;
+}
+#watchPoint #chapter-3 ul li#itembtn03 {
+  top: 230px;
+  left: 380px;
+}
+#watchPoint #chapter-3 ul li#itembtn04 {
+  top: 170px;
+  left: 550px;
+}
+#watchPoint #chapter-3 ul li#itembtn05 {
+  top: 170px;
+  left: 700px;
+}
+#watchPoint #chapter-3 ul li#itembtn06 {
+  top: 192px;
+  left: 820px;
+}
+#watchPoint #chapter-3 ul li#itembtn07 {
+  top: 420px;
+  left: 120px;
+}
+#watchPoint #chapter-3 ul li#itembtn08 {
+  top: 410px;
+  left: 260px;
+}
+#watchPoint #chapter-3 ul li#itembtn09 {
+  top: 405px;
+  left: 380px;
+}
+#watchPoint #chapter-3 ul li#itembtn10 {
+  top: 428px;
+  left: 550px;
+}
+#watchPoint #chapter-3 ul li#itembtn11 {
+  top: 420px;
+  left: 700px;
+}
+#watchPoint #chapter-3 ul li#itembtn12 {
+  top: 440px;
+  left: 870px;
+}
+#watchPoint #chapter-3 ul li a {
+  color: #242424;
+}
+#watchPoint #chapter-3 .tabPannel h4 {
+  font-size: 30em;
+  text-align: center;
+  margin-bottom: 1em;
+}
+#watchPoint #chapter-3 .tabPannel .imgCell {
+  width: 30%;
+  margin-right: 3%;
+  float: left;
+}
+#watchPoint #chapter-3 .tabPannel .textCell {
+  float: left;
+  width: 67%;
+  max-height: 320px;
+  padding-right: 40px;
+}
+#watchPoint #chapter-3 .tabPannel .textCell h5 {
+  font-size: 20em;
+  font-weight: 700;
+  margin-bottom: 1em;
+}
+#watchPoint #chapter-3 .tabPannel .textCell p {
+  font-size: 20em;
+}
+#watchPoint #chapter-4 #comparison,
+#watchPoint #chapter-4 #nailDetail {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+#watchPoint #chapter-4 #nailDetail {
+  top: 50%;
+  transform: translateY(-50%);
+}
+#watchPoint #chapter-4 #nailDetail .imgCell {
+  width: 35%;
+  margin-right: 5%;
+  float: left;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.6);
+}
+#watchPoint #chapter-4 #nailDetail .imgCell:before {
+  content: "";
+  position: absolute;
+  border: 5px dashed #f00;
+  width: 70px;
+  height: 70px;
+  left: 126px;
+  top: 34px;
+  border-radius: 100%;
+}
+#watchPoint #chapter-4 #nailDetail .textCell {
+  width: 60%;
+  float: right;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.6);
+  background-color: rgba(46, 46, 46, 0.7);
+  padding: 20px;
+  max-height: 212px;
+  line-height: 1.5;
+}
+#watchPoint #chapter-4 #nailDetail .textCell h5 {
+  font-size: 20em;
+  font-weight: 700;
+  margin-bottom: 1em;
+}
+#watchPoint #chapter-4 #nailDetail .textCell p {
+  font-size: 20em;
+}
+#watchPoint #chapter-5 .inner #chapter5Note {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+#watchPoint #chapter-5 .inner #chapter5Note img {
+  display: block;
+}
+#watchPoint #chapter-5 .inner #chapter5Video {
+  height: 274px;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  position: absolute;
+  transform: translate(0, -50%);
+  display: none;
+}
+#watchPoint #chapter-5 .inner #chapter5Video .video {
+  width: 49%;
+  float: left;
+}
+#watchPoint #chapter-5 .inner #chapter5Video .video .video-container {
+  position: relative;
+  padding-bottom: 50%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+}
+#watchPoint #chapter-5 .inner #chapter5Video .video .video-container iframe, #watchPoint #chapter-5 .inner #chapter5Video .video .video-container object, #watchPoint #chapter-5 .inner #chapter5Video .video .video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#watchPoint #chapter-5 .inner #chapter5Video .textCell {
+  width: 49%;
+  float: right;
+  /* background: #f00; */
+  line-height: 1.4;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.6);
+  background-color: #2e2e2e;
+  padding: 20px;
+  max-height: 274px;
+  height: 274px;
+}
+#watchPoint #chapter-5 .inner #chapter5Video .textCell p {
+  font-size: 20em;
+  line-height: 1.6;
+}
+
+.controlBtns a {
+  display: block;
+  width: 82px;
+  height: 24px;
+  margin: 0 auto;
+}
+.controlBtns#chapter4Control .chapter4Detail {
+  background: url("../assets/details-btn.svg") no-repeat center center;
+}
+.controlBtns#chapter4Control .chapter4Return {
+  background: url("../assets/return-btn.svg") no-repeat center center;
+}
+.controlBtns#chapter5Control .chapter5Detail {
+  background: url("../assets/details-btn.svg") no-repeat center center;
+}
+.controlBtns#chapter5Control .chapter5Return {
+  background: url("../assets/return-btn.svg") no-repeat center center;
+}
+
+div#comparison {
+  width: 1000px;
+  height: 560px;
+  max-width: 1000px;
+  max-height: 560px;
+  overflow: hidden;
+}
+
+figure {
+  background-image: none;
+  background-size: cover;
+  position: relative;
+  font-size: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+figure > img {
+  position: relative;
+  width: 100%;
+}
+figure div {
+  background: url("../assets/ultima_cena_grid.svg") no-repeat left center;
+  background-size: cover;
+  position: absolute;
+  width: 50%;
+  box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  bottom: 0;
+  height: 100%;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+
+input[type=range]:active {
+  outline: none;
+}
+
+input[type=range]::-moz-range-track {
+  -moz-appearance: none;
+  height: 15px;
+  width: 98%;
+  background-color: transparent;
+  position: relative;
+  outline: none;
+}
+
+input[type=range]:active {
+  border: none;
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 15px;
+  background: transparent;
+  border-radius: 0;
+}
+
+input[type=range]::-moz-range-thumb {
+  -moz-appearance: none;
+  width: 20px;
+  height: 15px;
+  background: transparent;
+  border-radius: 0;
+}
+
+input[type=range]:focus::-webkit-slider-thumb {
+  background: transparent;
+}
+
+input[type=range]:focus::-moz-range-thumb {
+  /*background: rgba(255,255,255,0.5);*/
+  background: transparent;
+}
+
+#comparisonHandle {
+  background: url("../assets/handle.png") no-repeat center center;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -34%);
+  width: 100px;
+  height: 130px;
+  background-size: contain;
+}
+
+/*# sourceMappingURL=style.css.map */
