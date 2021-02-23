@@ -136,20 +136,7 @@ html, body {
 	margin-top: 20%;
 }
 
-#guide-bg {
-	width:100%;
-	height:100%;
-	position:absolute;
-	padding-top: 10%;
-	text-align: center;
-	z-index:2;
-	background-color: rgba(0, 0, 0, 0.8);
-}
 
-#guide-bg * {
-	color:color;
-	z-index:2
-}
 
 #guide-header {
 	width:100%;
@@ -296,81 +283,7 @@ html, body {
 	height:52px;
 }
 
-#confirm {
-	position: absolute;
-	width: 100%;
-	/*height: 30%;*/
-	box-sizing: border-box;
-	background-color: rgba(52, 52, 52, 0.53);
-	z-index:1;
-	padding:5%;
-}
 
-#confirm #confirm-bg {
-	position: absolute;
-	width: 100%;
-	height:15%;
-	padding:10px;
-}
-
-#confirm #confirm-text {
-}
-
-#confirm #confirm-button {
-	margin-top: 20px;
-	padding-left:10%;
-	padding-right:10%;
-}
-
-#confirm  p {
-	text-align: center;
-	font-size: 18px !important;
-	color: white;
-}
-
-#confirm button {
-	padding: 0;
-	border: none;
-	background: none;
-	font-size: 14px;
-}
-
-#confirm img {
-	position:absolute;
-	right:4%;
-	bottom:16%;
-	width:50px;
-	height:50px;
-	z-index: 3
-}
-
-
-
-#confirm > button {
-	background: transparent;
-	position:absolute;
-	text-align: center;
-	color: white;
-	border: none;
-	font-size: 20px;
-}
-
-#confirm #confirm-button-cancel {
-	width:45%;
-	background: #ffffff;
-	padding: 8px;
-	border-radius: 8px;
-	color: black;
-	float:left
-}
-#confirm #confirm-button-ok {
-	width:45%;
-	background: rgb(36,185,189);
-	padding: 8px;
-	border-radius: 8px;
-	color: white;
-	float:right
-}
 
 #undo {
 	position:absolute;
@@ -538,66 +451,7 @@ html, body {
 	color: black;
 }
 
-#nav {
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	display: block;
-	text-align: center;
-	z-index: 3;
-}
 
-#nav * {
-	z-index: 3;
-}
-
-#nav #nav-garbage {
-	position:absolute;
-	width: 50px;
-	height: 50px;
-	left:4%;
-	bottom:16%;
-}
-
-#nav #nav-kakao {
-	position:absolute;
-	width: 50px;
-	height: 50px;
-	right:4%;
-	bottom:16%;
-	margin-bottom:120px;
-}
-
-#nav #nav-text {
-	position:absolute;
-	width: 50px;
-	height: 50px;
-	right:4%;
-	bottom:16%;
-	margin-bottom:60px;
-}
-
-
-#nav #nav-emo {
-	position:absolute;
-	width: 50px;
-	height: 50px;
-	right:4%;
-	bottom:16%;
-}
-
-#nav #nav-emoji {
-	/*position: fixed;*/
-	position:absolute;
-	right:4%;
-	height:8%;
-}
-
-#nav #nav-emoji #nav-emo-bg {
-	width: 55px;
-	height: 55px;
-	margin-top: 0;
-}
 
 
 #ft-functions {
@@ -705,14 +559,7 @@ html, body {
 	border-radius: 10%;
 }
 
-.user-comment {
-    font-size: 150% !important;
-    font-weight: 900;
-    border: none;
-    color: white;
-    text-shadow: 1px 1px #000000;
-	opacity: 0.85;
-}
+
 
 #kakao-modal-bg{
 	position:absolute;
@@ -868,33 +715,7 @@ html, body {
     border-radius: 5px;
 }
 
-#capture {
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	margin: 0 auto;
-	padding: 0;
-    background-color:rgba(42,175,197,0.4);
-}
 
-#capture #border {
-    width:100%;
-    height:100%;
-    padding: 20% 5% 30% 5%;
-    position:absolute;
-}
-
-#capture #border #border-line {
-    width:100%;
-    height:100%;
-    position:relative;
-}
-
-
-#capture #border #border-line img {
-    width:50px;
-    height:50px;
-}
 
 #border-line-top-left {
     position:absolute;
@@ -919,29 +740,7 @@ html, body {
 }
 
 
-#capture #cap1 {
-	width: 25%;
-	position: absolute;
-	margin-left: 37.5%;
-	top:30%
-}
 
-#capture #capture-message p {
-	color: white;
-	font-size: 20px;
-	padding: 0;
-	text-align: center;
-    bottom:15%;
-    position:relative;
-}
-
-#capture #capture-message {
-    width:100%;
-    top:50%;
-    text-align: center;
-    padding:10px;
-    position:absolute;
-}
 
 #share-message {
     width:100%;
@@ -966,13 +765,7 @@ html, body {
     font-size: 18px;
 }
 
-#nav-message {
-    width:100%;
-    height:15%;
-    position:absolute;
-    padding:5%;
-    background-color: rgba(52, 52, 52, 0.53);
-}
+
 
 .nav-message-text {
     width:100%;
