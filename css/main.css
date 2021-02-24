@@ -47,6 +47,24 @@ time, mark, audio, video {
   width: 50px;
   height: 50px;
 }
+#capture #border #border-line #border-line-top-left {
+  position: absolute;
+  left: 0;
+}
+#capture #border #border-line #border-line-top-right {
+  position: absolute;
+  right: 0;
+}
+#capture #border #border-line #border-line-bottom-left {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+#capture #border #border-line #border-line-bottom-right {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
 #capture #cap1 {
   width: 25%;
   position: absolute;
@@ -146,6 +164,69 @@ time, mark, audio, video {
   border-radius: 10px;
   background: white;
   z-index: 200;
+}
+#content-wrapper #comment-div #comment-box #comment-box-input {
+  width: 100%;
+  margin-top: 10%;
+}
+#content-wrapper #comment-div #comment-box #comment-box-input #comment-box-input-left {
+  float: left;
+  width: 20%;
+  color: black;
+  font-size: 17px;
+  margin-top: 5px;
+}
+#content-wrapper #comment-div #comment-box #comment-box-input #comment-box-input-right {
+  float: right;
+  width: 80%;
+  text-align: center;
+}
+#content-wrapper #comment-div #comment-box #comment-box-input #comment-box-input-right input {
+  font-size: 16px;
+  background-color: #E5E5E5;
+  width: 100%;
+  padding: 2px;
+}
+#content-wrapper #comment-div #comment-box #comment-box-buttons {
+  margin-top: 25%;
+}
+#content-wrapper #comment-div #comment-box #comment-box-buttons .inline {
+  display: inline-block;
+  margin: 10px;
+}
+#content-wrapper #comment-div #comment-box #comment-box-buttons #btCancel-box {
+  width: 40%;
+  margin-top: 4%;
+  background: lightgray;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 18px;
+  color: black;
+  float: left;
+}
+#content-wrapper #comment-div #comment-box #comment-box-buttons #btOK-box {
+  width: 40%;
+  margin-top: 4%;
+  background: #30AEC3;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 18px;
+  color: white;
+  float: right;
+}
+#content-wrapper #comment-div #comment-box button {
+  width: 40%;
+  text-align: center;
+  font-size: 12px;
+  border: none;
+}
+#content-wrapper #comment-div #comment-box p {
+  text-align: center;
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 #content-wrapper #nav-message {
   display: block;
@@ -298,6 +379,175 @@ time, mark, audio, video {
   width: 50px;
   height: 50px;
   z-index: 3;
+}
+#content-wrapper #ft-functions {
+  width: 100%;
+  height: 200px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 0;
+  margin: 0 auto;
+  overflow: hidden;
+  display: none;
+  text-align: center;
+  z-index: 200;
+  border-radius: 60px 60px 0 0;
+  -webkit-backdrop-filter: blur(8.4px);
+  backdrop-filter: blur(8.4px);
+  background: rgba(16, 16, 16, 0.5);
+}
+#content-wrapper #ft-functions #emotions {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+#content-wrapper #ft-functions #emotions .emoji-box-item {
+  width: 90%;
+  margin: 22px auto;
+  height: 180px;
+}
+#content-wrapper #ft-functions #emotions .emoji-box-item button {
+  background: none;
+  font-size: 32px;
+  width: 32px;
+  padding: 3px 7px;
+  text-align: center;
+  line-height: 40px;
+  box-sizing: content-box;
+  border: none;
+}
+#content-wrapper #kakao-modal-box {
+  background-color: #ffffff;
+  position: absolute;
+  width: 90%;
+  height: 200px;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 200;
+  border: none;
+  border-radius: 5px;
+}
+#content-wrapper #kakao-modal-box #kakao-modal-header {
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+#content-wrapper #kakao-modal-box #kakao-modal-header #kakao-modal-header-text {
+  margin-left: 20px;
+}
+#content-wrapper #kakao-modal-box #kakao-modal-header #kakao-modal-header-text p {
+  letter-spacing: normal;
+  font-size: 18px;
+  line-height: 1.67;
+  color: #000000;
+}
+#content-wrapper #kakao-modal-box #kakao-modal-footer {
+  padding: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+#content-wrapper #kakao-modal-box #kakao-modal-footer #kakao-modal-footer-ok {
+  padding: 6px 50px;
+  margin-left: 10px;
+  font-size: 16px;
+  line-height: 1.67;
+  color: #ffffff;
+  background: #30AEC3;
+  border: 1px solid #30AEC3;
+  border-radius: 3px;
+}
+#content-wrapper #kakao-modal-box #kakao-modal-footer #kakao-modal-footer-cancel {
+  font-size: 16px;
+  line-height: 1.67;
+  color: #000000;
+  background-color: #FFFFFF;
+  border: 1px solid #30AEC3;
+  border-radius: 3px;
+  padding: 6px 40px;
+}
+#content-wrapper #remove-modal-box {
+  background-color: #ffffff;
+  position: absolute;
+  width: 90%;
+  height: 200px;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 200;
+  border: none;
+  border-radius: 5px;
+}
+#content-wrapper #remove-modal-box #remove-modal-header {
+  height: 110px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+#content-wrapper #remove-modal-box #remove-modal-header p {
+  font-weight: bold;
+  letter-spacing: normal;
+  font-size: 20px;
+  line-height: 1.67;
+  color: #000000;
+  margin-top: 20px;
+}
+#content-wrapper #remove-modal-box #remove-modal-footer {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+#content-wrapper #remove-modal-box #remove-modal-footer #remove-modal-footer-ok {
+  padding: 6px 50px;
+  margin-left: 10px;
+  font-size: 16px;
+  line-height: 1.67;
+  color: #ffffff;
+  background: #ff4a00;
+  border: 1px solid #ff4a00;
+  border-radius: 3px;
+}
+#content-wrapper #remove-modal-box #remove-modal-footer #remove-modal-footer-cancel {
+  font-size: 16px;
+  line-height: 1.67;
+  color: #000000;
+  background-color: #FFFFFF;
+  border: 1px solid #ff4a00;
+  border-radius: 3px;
+  padding: 6px 40px;
+}
+
+#share-message {
+  width: 100%;
+  height: 10%;
+  position: absolute;
+  padding: 5%;
+  background-color: rgba(52, 52, 52, 0.53);
+}
+#share-message #share-message-text {
+  width: 100%;
+  height: 100%;
+  font-weight: 900;
+  text-align: center;
+  font-size: 23px;
+  color: white;
 }
 
 .renderable .wrap .comment {
