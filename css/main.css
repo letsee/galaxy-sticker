@@ -16,86 +16,11 @@ time, mark, audio, video {
   border: 0;
   font: inherit;
   vertical-align: baseline;
-  font-family: "Roboto", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
   box-sizing: border-box;
   color: #fff;
 }
 
-/*#landscapeGuide {
-  display: none;
-  background: #ff4a00;
-  @include abs-full;
-  position: fixed;
-  padding: 15px;
-  z-index: 1000;
-  .wrap {
-    @include abs-full;
-    position: relative;
-    border: 1px dotted rgba(0, 0, 0, 0.65);
-    &:after,
-    &:before {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      border: 3px solid #000;
-    }
-    &:before {
-      top: -1px;
-      left: -1px;
-      border-bottom: none;
-      border-right: none;
-    }
-    &:after {
-      top: -1px;
-      right: -1px;
-      border-bottom: none;
-      border-left: none;
-    }
-
-    .inner {
-      @include abs-full;
-      position: relative;
-      &:after,
-      &:before {
-        content: '';
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        border: 3px solid #000;
-      }
-      &:before {
-        bottom: -1px;
-        left: -1px;
-        border-top: none;
-        border-right: none;
-      }
-      &:after {
-        bottom: -1px;
-        right: -1px;
-        border-top: none;
-        border-left: none;
-      }
-      img {
-        @include abs-vcenter-hcenter;
-        top: 45%;
-      }
-      p {
-        @include abs-vcenter-hcenter;
-        width: 100%;
-        text-align: center;
-        top: 55%;
-        font-weight: 700;
-        font-size: 16px;
-      }
-    }
-  }
-}
-@media (orientation: portrait) {
-  #landscapeGuide {
-    display: block !important;
-  }
-}*/
 #capture {
   display: none;
   background-color: rgba(42, 175, 197, 0.4);
@@ -164,22 +89,63 @@ time, mark, audio, video {
   height: 500px;
   position: fixed;
   z-index: 200;
-  /*#nav #nav-emoji {
-    position:absolute;
-    right:4%;
-    height:8%;
-  }
-
-  #nav #nav-emoji #nav-emo-bg {
-    width: 55px;
-    height: 55px;
-    margin-top: 0;
-  }*/
 }
 #content-wrapper #comment-div #guide-bg {
   text-align: center;
   z-index: 200;
   padding-top: 20%;
+}
+#content-wrapper #comment-div #guide-bg #guide-header {
+  width: 100%;
+  height: 60%;
+}
+#content-wrapper #comment-div #guide-bg #guide-header #guide-header-message-top {
+  width: 100%;
+  text-align: center;
+  font-size: 26px;
+  padding: 2%;
+}
+#content-wrapper #comment-div #guide-bg #guide-header #guide-header-message-bottom {
+  width: 100%;
+  text-align: center;
+  padding: 2%;
+}
+#content-wrapper #comment-div #guide-bg #guide-header #guide-header-message-bottom p {
+  font-size: 18px;
+}
+#content-wrapper #comment-div #guide-bg #guide-header #guide-header-btn {
+  font-size: 16px;
+  width: 100%;
+  text-align: center;
+  padding: 3% 35% 3% 35%;
+}
+#content-wrapper #comment-div #guide-bg #guide-header #guide-header-btn button {
+  width: 100%;
+  font-size: 18px;
+  background-color: #30AEC3;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 7px;
+  color: white;
+}
+#content-wrapper #comment-div #guide-bg #guide-header #guide-header-img {
+  width: 100%;
+  text-align: center;
+  padding-top: 4%;
+}
+#content-wrapper #comment-div #guide-bg #guide-header #guide-header-img img {
+  width: 60%;
+}
+#content-wrapper #comment-div #comment-box {
+  position: absolute;
+  width: 85%;
+  margin-top: 20%;
+  margin-left: 7.5%;
+  padding: 5%;
+  border-radius: 10px;
+  background: white;
+  z-index: 200;
 }
 #content-wrapper #nav-message {
   display: block;
@@ -212,6 +178,89 @@ time, mark, audio, video {
   height: 200px;
   z-index: 200;
 }
+#content-wrapper #nav #nav-guide {
+  z-index: 200;
+}
+#content-wrapper #nav #nav-guide #guide-share-text {
+  position: absolute;
+  right: 4%;
+  bottom: 16%;
+  margin-bottom: 144.5px;
+  margin-right: 106px;
+  font-size: 18px;
+}
+#content-wrapper #nav #nav-guide #guide-share-arrow {
+  position: absolute;
+  right: 4%;
+  bottom: 16%;
+  margin-bottom: 170px;
+  margin-right: 102px;
+}
+#content-wrapper #nav #nav-guide #guide-share-arrow img {
+  position: absolute;
+  width: 55px;
+  height: 24px;
+}
+#content-wrapper #nav #nav-guide #guide-message-text {
+  position: absolute;
+  right: 4%;
+  bottom: 16%;
+  margin-bottom: 87.5px;
+  margin-right: 116px;
+  font-size: 18px;
+}
+#content-wrapper #nav #nav-guide #guide-message-arrow {
+  position: absolute;
+  right: 4%;
+  bottom: 16%;
+  margin-bottom: 118px;
+  margin-right: 114px;
+}
+#content-wrapper #nav #nav-guide #guide-message-arrow img {
+  position: absolute;
+  width: 63px;
+  height: 34px;
+}
+#content-wrapper #nav #nav-guide #guide-emoji-text {
+  position: absolute;
+  right: 4%;
+  bottom: 16%;
+  margin-bottom: 27.5px;
+  margin-right: 116px;
+  font-size: 18px;
+}
+#content-wrapper #nav #nav-guide #guide-emoji-arrow {
+  position: absolute;
+  right: 4%;
+  bottom: 16%;
+  margin-bottom: 58px;
+  margin-right: 114px;
+}
+#content-wrapper #nav #nav-guide #guide-emoji-arrow img {
+  position: absolute;
+  width: 65px;
+  height: 36px;
+}
+#content-wrapper #nav #nav-guide #guide-remove-text {
+  position: absolute;
+  left: 4%;
+  bottom: 16%;
+  margin-bottom: 109.5px;
+  margin-left: 57px;
+  font-size: 18px;
+}
+#content-wrapper #nav #nav-guide #guide-remove-arrow {
+  position: absolute;
+  left: 4%;
+  bottom: 16%;
+  margin-bottom: 107px;
+  margin-left: 17px;
+}
+#content-wrapper #nav #nav-guide #guide-remove-arrow img {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+}
 #content-wrapper #nav #nav-garbage {
   position: absolute;
   width: 50px;
@@ -241,6 +290,14 @@ time, mark, audio, video {
   height: 50px;
   right: 4%;
   bottom: 16%;
+}
+#content-wrapper #undo {
+  position: absolute;
+  right: 4%;
+  bottom: 30%;
+  width: 50px;
+  height: 50px;
+  z-index: 3;
 }
 
 .renderable .wrap .comment {

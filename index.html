@@ -14,7 +14,6 @@
   <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
   <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
   
-<!--  <script src="./vendor/hammer.min.js"></script>-->
   <script src="https://www.unpkg.com/hammerjs@2.0.8/hammer.min.js"></script>
   
   <script src="js/lib/axios.min.js"></script>
@@ -25,14 +24,13 @@
   
   <!-- Client code -->
   <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/comments.css">
+  <link rel="stylesheet" href="css/style.css">
   <style media="place" type="text/css">
     #container {
       -letsee-target: uri('sticker.json');
       width: 177px;
       height: 262px;
-      border: 4px solid red;
     }
   </style>
   <style>
@@ -43,14 +41,6 @@
 </head>
 <body>
 
-<!--<div id="landscapeGuide">
-  <div class="wrap">
-    <div class="inner">
-      <img src="assets/rotate_device.svg">
-      <p>갤럭시 탭을 정면에서 촬영해주세요</p>
-    </div>
-  </div>
-</div>-->
 <div id="container"></div>
 
 <div id="capture" style="display: block">
@@ -100,12 +90,6 @@
       </div>
     </div>
     
-    <!--Show after user submit comments/emoji successfully-->
-    <div id="comment-success" style="display: none">
-      <p>메세지가 저장되었습니다.</p>
-      <button id="btnSuccess" type="button" onclick="finishComment()">확인</button>
-    </div>
-    
     <!-- kakao link-->
     <button id="kakao-link" style="display: none;"></button>
   </div>
@@ -132,19 +116,17 @@
   </div>
   
   <!-- remove modal -->
-<!--  <div id="remove-modal-bg" style="display: none">-->
-    <div id="remove-modal-box">
-      <div id="remove-modal-header">
-        <div id="remove-modal-header-text">
-          <p>모두 지우시겠습니까?</p>
-        </div>
-      </div>
-      <div id="remove-modal-footer">
-        <button id="remove-modal-footer-cancel">아니오</button>
-        <button id="remove-modal-footer-ok">예</button>
+  <div id="remove-modal-box">
+    <div id="remove-modal-header">
+      <div id="remove-modal-header-text">
+        <p>모두 지우시겠습니까?</p>
       </div>
     </div>
-<!--  </div>-->
+    <div id="remove-modal-footer">
+      <button id="remove-modal-footer-cancel">아니오</button>
+      <button id="remove-modal-footer-ok">예</button>
+    </div>
+  </div>
   
   <!--Emoticons functions-->
   <img style="display: none" id="undo" src="assets/images/icons/input-undo-mint.png"/>
@@ -155,15 +137,17 @@
   </div>
   
   <div id="nav" style="display: block">
-    <div id="guide-share-text">공유</div>
-    <div id="guide-message-text">문자</div>
-    <div id="guide-emoji-text">이모티콘</div>
-    <div id="guide-remove-text">삭제</div>
-    
-    <div id="guide-share-arrow"><img src="assets/images/icons/arrow-share.png"/></div>
-    <div id="guide-message-arrow"><img src="assets/images/icons/arrow-message.png"/></div>
-    <div id="guide-emoji-arrow"><img src="assets/images/icons/arrow-emoji.png"></div>
-    <div id="guide-remove-arrow"><img src="assets/images/icons/arrow-remove.png"></div>
+    <div id="nav-guide">
+      <div id="guide-share-text">공유</div>
+      <div id="guide-message-text">문자</div>
+      <div id="guide-emoji-text">이모티콘</div>
+      <div id="guide-remove-text">삭제</div>
+  
+      <div id="guide-share-arrow"><img src="assets/images/icons/arrow-share.png"/></div>
+      <div id="guide-message-arrow"><img src="assets/images/icons/arrow-message.png"/></div>
+      <div id="guide-emoji-arrow"><img src="assets/images/icons/arrow-emoji.png"></div>
+      <div id="guide-remove-arrow"><img src="assets/images/icons/arrow-remove.png"></div>
+    </div>
     
     <img id="nav-garbage" src="assets/images/icons/garbage.png"/>
     <img id="nav-kakao" src="assets/images/icons/kakao-btn.png" width="50px" alt="" style="display: block;">
@@ -171,8 +155,6 @@
     <img id="nav-emo" src="assets/images/icons/input-emoji-mint.png" width="50px" alt="">
   </div>
 </div>
-
-
 
 <!--Confirm after comments/emotions-->
 <div id="confirm" style="display: none">
@@ -182,8 +164,6 @@
     <button id="confirm-button-cancel">취소</button>
   </div>
 </div>
-
-<!-- END COMMENTS.HTML PAGE-->
 
 <div id="share-message" style="display: none">
   <div id="share-message-text">'렛시'님이 남긴 메세지입니다.</div>

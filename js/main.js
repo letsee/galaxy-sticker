@@ -15,23 +15,20 @@ let capture,
     removeCancelBtn,
     removeOKBtn;
 
-let commentInput, commentBox;
-
-let commentDiv,
+let commentInput,
+    commentBox,
+    commentDiv,
     shareMessage,
     navMessage,
-    contentWrapper, emojiSection;
+    contentWrapper,
+    emojiSection,
+    navGuide;
 
-// THIS SCRIPT FOR COMMENT.HTML PAGE
 let editObject = null;
-let CURRENT_URI = null;
-let currentTarget = null;
-// const world = new Object3D();
-
-// count comments.
 let commentsIndex = 0;
 let confirmBoxIndex = "";
 let renderItems = [];
+let shareObjectId;
 
 // Template : JSON type which save renderable item's position, rotation, scale and imageUrl.
 const commentTemplate= {
@@ -58,80 +55,40 @@ const commentTemplate= {
 let commentObject = {...commentTemplate};
 // let helpObject = {...commentTemplate};
 
+// TODO: At the moment, parse Server error
+/*axios.defaults.baseURL = 'https://browser.letsee.io:8337/parse';
+axios.defaults.headers.common['X-Parse-Application-Id'] = 'awe2019wallboard';*/
 
-
-$('#comment-box-content').focusout(function (e) {
-  $('#comment-box-nickname').focus();
-});
-
-function finishComment() {
-  document.getElementById('comment-success').style.display = 'none';
-  writeCommentBtn.style.display = 'block';
-  document.getElementById('nav-emo').style.display = 'block';
-}
-
+/**
+ * When users clicks 'Cancel' button in message box.
+ */
 function cancelCommentBox() {
+  contentWrapper.style.background = 'rgba(0, 0, 0, 0)';
   document.getElementById('nav').style.display = 'block';
   writeCommentBtn.style.display = 'block';
   document.getElementById('nav-emo').style.display = 'block';
   commentBox.style.display = 'none';
-  // world.remove(editObject);
 }
 
 /**
  * Kakao sharing
  */
 function openKakaoModal() {
+  contentWrapper.style.background = 'rgba(0, 0, 0, .8)';
   document.getElementById('nav').style.display = 'none';
   document.getElementById('kakao-modal-box').style.display = 'flex';
 }
 
 /**
- * Delete all messages
+ * Open the dialog to delete all messages
  */
 function openRemoveModal() {
   navMessage.style.display = 'none';
-  // document.getElementById('remove-modal-bg').style.display = 'block';
+  contentWrapper.style.background = 'rgba(0, 0, 0, .8)';
 
   document.getElementById('remove-modal-box').style.display = 'block';
   document.getElementById('nav').style.display = 'none';
 }
-
-/**
- * Called when users click on Emoticon to start
- */
-function createEmojiBox(){
-  /*document.getElementById('confirm').style.display = 'none';
-  document.getElementById('emotions').style.display = 'block';
-  commentBox.style.display = "none";
-  document.getElementById('nav').style.display = "none";
-  document.getElementById('undo').style.display = "block";
-  document.querySelector('.emoji-box-item').appendChild(document.createElement('br'));
-  document.querySelector('.emoji-box-item').appendChild(document.createElement('br'));*/
-
-  removeEditables();
-}
-
-// This button event is for confirm buttons
-function initBtnEvent() {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
-
 
 /**
  * User adds comments by clicking on 저장 button.
@@ -140,7 +97,7 @@ function addComments() {
   let cmt_content = commentInput.value;
   let content_bytes = getBytesString(cmt_content.toString());
 
-  if (content_bytes > 30 || content_bytes === 0 || cmt_content === null || cmt_content === '') {
+  if (content_bytes > 30 || content_bytes === 0 || cmt_content === '') {
     commentInput.style.border = '1px solid red';
     window.alert("내용을 15자 이내로 간단하게 남겨주세요!");
     return;
@@ -153,19 +110,17 @@ function addComments() {
     contentWrapper.style.background = 'rgba(0, 0, 0, 0)';
     navMessage.style.display = 'none';
 
-    let str_count = cmt_content.toString().length;
-    /*let helpDiv = createHelpDiv('comment', str_count);
+    /*let str_count = cmt_content.toString().length;
+    let helpDiv = createHelpDiv('comment', str_count);
     const help = createHelpRenderable(helpDiv);
     world.add(help);*/
 
     const type = 'comment';
     const div = createCommentDiv(cmt_content);
     const commentRenderable = createCommentRenderable(div, type);
-    // world.add(commentRenderable);
     commentRenderable.element.classList.add('renderable', 'helper');
-    console.warn(commentRenderable);
-
   }
+
   // reset input and close the confirm panel
   commentInput.value = '';
 }
@@ -176,25 +131,19 @@ function addComments() {
  * @returns {string}
  */
 function createCommentDiv(comment) {
-  // let commentText = "#" + comment;
-  const div =
-      `
-        <div class="wrap"><div class="comment"><div class="value">${comment}</div></div></div>
-			`;
-
-  return div;
+  return `<div class="wrap"><div class="comment"><div class="value">${comment}</div></div></div>`;
 }
 
-// User adds emotions
+/**
+ * Add emoji when users click on each emoticon.
+ * @param i
+ */
 function addEmoji(i) {
-  console.log('add emotions: ' + i);
   emojiSection.style.display = 'none';
   undoEmojiBtn.style.display = 'none';
 
   document.getElementById('confirm').style.display = 'block';
   undoEmojiBtn.style.display = 'none';
-
-  // manager.resetPosition();
 
   /*let helpDiv = createHelpDiv('emoji');
   const help = createHelpRenderable(helpDiv);
@@ -244,7 +193,6 @@ function createCommentRenderable(_value, _type) {
   if (type !== "comment" && type !== "emoji") {
     type = null
   }
-  // manager.resetPosition();
 
   renderable = createDOMRenderable(`<div data-id="${uid}" data-type="${type}">${_value}</div>`, position, rotation, scale);
   renderable.comment_type = type;
@@ -299,7 +247,11 @@ function createCommentRenderable(_value, _type) {
   return renderable;
 }*/
 
-// Function to get uuid
+/**
+ * Get random uuid
+ * @returns {string}
+ * @constructor
+ */
 function UUID() {
   let d = new Date().getTime();
 
@@ -314,106 +266,29 @@ function UUID() {
   });
 }
 
-// parse Server
-axios.defaults.baseURL = 'https://browser.letsee.io:8337/parse';
-axios.defaults.headers.common['X-Parse-Application-Id'] = 'awe2019wallboard';
+/**
+ * Function to get bytes by strings
+ * @param str
+ * @returns {number}
+ */
+function getBytesString(str) {
+  var len = 0;
 
-let shareObjectId;
-
-function makeCommentObject(renderable) {
-  commentObject = {...commentTemplate};
-  commentObject.type = renderable;
-
-  commentObject.position = {
-    "_x": renderable.position.x,
-    "_y": renderable.position.y,
-    "_z": renderable.position.z
-  };
-
-  commentObject.rotation = {
-    "_x": renderable.rotation.x,
-    "_y": renderable.rotation.y,
-    "_z": renderable.rotation.z
-  };
-
-  commentObject.scale = {
-    "_x": renderable.scale.x,
-    "_y": renderable.scale.y,
-    "_z": renderable.scale.z
-  };
-
-  let $commentDiv = $(`${renderable.element.innerHTML}`);
-  commentObject.id = $commentDiv.attr('data-id');
-  commentObject.type = $commentDiv.attr('data-type');
-  commentObject.content = $commentDiv[0].outerHTML;
-
-  return commentObject;
+  for (var i=0; i<str.length; i++)
+  {
+    var n = str.charCodeAt(i);
+    if ((n>= 0) && (n<256))
+      len ++;
+    else len += 2; // 한글이면 2byte로 계산한다.
+  }
+  return len;
 }
 
-// Get data (comments & emotions) from server
-function getComments() {
-  console.log('getComments');
-  return new Promise((resolve, reject) => {
-    axios.get('classes/docent_comments', {
-      params: {
-        order: '-createdAt'
-      }
-    })
-    .then(data => {
-      printCommentItemsFromJson(data.data.results);
-      editObject = null;
-    })
-    .catch(error => {
-      reject(error);
-    })
-  })
-}
-
-// get comments json array from parse server
-function getShareCommentsByObjectId(objectId) {
-  return new Promise((resolve, reject) => {
-    axios.get(`classes/galaxy_share_comments/${objectId}`)
-    .then(result => {
-      resolve(result);
-      editObject = null;
-      printCommentItemsFromJson(result.data.comments)
-    })
-    .catch(error => {
-      reject(error);
-    })
-  })
-}
-
-// Function to make renderable and add to world using json data
-function printCommentItemsFromJson(data) {
-  data.forEach(function (item, index) {
-    let position = [item.position._x, item.position._y, (index * -3) - 15];
-    let rotation = [item.rotation._x, item.rotation._y, item.rotation._z];
-    let scale = [item.scale._x, item.scale._y, item.scale._z];
-    let renderableItem = createDOMRenderable(item.content, position, rotation, scale);
-    // world.add(renderableItem);
-    renderItems.push(renderableItem);
-  });
-}
-
-//function printSharedComment
-function hideRenderables() {
-  console.log('hideRenderables');
-  renderItems.forEach(function(item) {
-    // world.remove(item);
-  })
-}
-
-/*function showRenderables() {
-  let emotions = document.getElementById('emotions');
-
-  if(commentBox.style.display !== 'block' && emotions.style.display !== 'block')
-    renderItems.forEach(function(item) {
-      // world.add(item);
-    })
-}*/
-
-function resetKakaoDefaultButtonUrl(objectId) {
+/**
+ * TODO: Backup for later use.
+ * @param objectId
+ */
+/*function resetKakaoDefaultButtonUrl(objectId) {
   Kakao.Link.createDefaultButton({
     container: '#kakao-link',
     objectType: 'feed',
@@ -441,10 +316,62 @@ function resetKakaoDefaultButtonUrl(objectId) {
       }
     ]
   });
-}
+}*/
 
-// Post renderables json array to server.
-function postShareComments(commentRenderables) {
+/**
+ * Function to make renderable and add to world using json data
+ * TODO: Backup for later use.
+ * @param data
+ */
+/*function printCommentItemsFromJson(data) {
+  data.forEach(function (item, index) {
+    let position = [item.position._x, item.position._y, (index * -3) - 15];
+    let rotation = [item.rotation._x, item.rotation._y, item.rotation._z];
+    let scale = [item.scale._x, item.scale._y, item.scale._z];
+    let renderableItem = createDOMRenderable(item.content, position, rotation, scale);
+    renderItems.push(renderableItem);
+  });
+}*/
+
+/**
+ * get comments json array from parse server
+ * TODO: Backup for later use.
+ * @param objectId
+ * @returns {Promise<unknown>}
+ */
+/*function getShareCommentsByObjectId(objectId) {
+  return new Promise((resolve, reject) => {
+    axios.get(`classes/galaxy_share_comments/${objectId}`)
+    .then(result => {
+      resolve(result);
+      editObject = null;
+      printCommentItemsFromJson(result.data.comments)
+    })
+    .catch(error => {
+      reject(error);
+    })
+  })
+}*/
+
+/**
+ * Share messages by Kakao
+ * TODO: Backup for later use
+ */
+/*function kakaoCommentShare() {
+  postShareComments(renderItems)
+  .then(() => {
+    resetKakaoDefaultButtonUrl(shareObjectId);
+    $("#kakao-link").trigger('click');
+  });
+}*/
+
+/**
+ * Post renderables json array to server.
+ * TODO: Backup for later use
+ * @param commentRenderables
+ * @returns {Promise<unknown>}
+ */
+/*function postShareComments(commentRenderables) {
   return new Promise((resolve, reject) => {
     // 배열이 아니거나 null 이면 리턴
     if(!Array.isArray(commentRenderables) || commentRenderables === null)
@@ -465,58 +392,97 @@ function postShareComments(commentRenderables) {
       reject(error);
     })
   })
-}
-
-// Function to get bytes by strings .
-// inputbox: input string
-function getBytesString(str)
-{
-  var len = 0;
-
-  for (var i=0; i<str.length; i++)
-  {
-    var n = str.charCodeAt(i);
-    if ((n>= 0) && (n<256))
-      len ++;
-    else len += 2; // 한글이면 2byte로 계산한다.
-  }
-  return len;
-}
-
-/**
- * Share messages by Kakao
- * TODO: At the moment, cannot use Parse server
- */
-/*function kakaoCommentShare() {
-  postShareComments(renderItems)
-  .then(() => {
-    resetKakaoDefaultButtonUrl(shareObjectId);
-    $("#kakao-link").trigger('click');
-  });
 }*/
 
 /**
- * remove renderable object from the world
+ * TODO: Backup for later use.
+ * @param renderable
+ * @returns {{rotation: {_x: null, _y: null, _z: null}, scale: {_x: null, _y: null, _z: null}, id: null, position: {_x: null, _y: null, _z: null}, type: null, content: null}}
  */
-function removeEditables() {
-  if(editObject !== null) {
-    // world.remove(editObject);
-    editObject = null;
-    commentsIndex --;
+/*function makeCommentObject(renderable) {
+  commentObject = {...commentTemplate};
+  commentObject.type = renderable;
+
+  commentObject.position = {
+    "_x": renderable.position.x,
+    "_y": renderable.position.y,
+    "_z": renderable.position.z
+  };
+
+  commentObject.rotation = {
+    "_x": renderable.rotation.x,
+    "_y": renderable.rotation.y,
+    "_z": renderable.rotation.z
+  };
+
+  commentObject.scale = {
+    "_x": renderable.scale.x,
+    "_y": renderable.scale.y,
+    "_z": renderable.scale.z
+  };
+
+  let $commentDiv = $(`${renderable.element.innerHTML}`);
+  commentObject.id = $commentDiv.attr('data-id');
+  commentObject.type = $commentDiv.attr('data-type');
+  commentObject.content = $commentDiv[0].outerHTML;
+
+  return commentObject;
+}*/
+
+/**
+ * Get data (comments & emotions) from server.
+ * TODO: Backup for later use.
+ * @returns {Promise<unknown>}
+ */
+/*function getComments() {
+  return new Promise((resolve, reject) => {
+    axios.get('classes/docent_comments', {
+      params: {
+        order: '-createdAt'
+      }
+    })
+    .then(data => {
+      printCommentItemsFromJson(data.data.results);
+      editObject = null;
+    })
+    .catch(error => {
+      reject(error);
+    })
+  })
+}*/
+
+/**
+ * TODO: Backup for later use.
+ */
+/*$(document).ready(function() {
+  if (window.location.search.substr(1) === "") {
+    // 저작 페이지
+  } else {
+    // 공유 페이지
+    commentDiv.style.display = 'none';
+    shareObjectId = window.location.search.substr(1);
+    getShareCommentsByObjectId(shareObjectId);
+    //const param = "aaa";// get parameter from url
+    var agent = navigator.userAgent.toLowerCase();
+
+    if (agent.indexOf("kakao") > -1) {
+      console.log("카카오 브라우저입니다.");
+      window.location.href = `intent://browser.letsee.io/clab-galaxy/index.html?${shareObjectId}#Intent;scheme=http;package=com.android.chrome;end`;
+    } else {
+      console.log("크롬 브라우저입니다.");
+    }
   }
 
-  /*if(helpObject!== null) {
-    // world.remove(helpObject);
-    helpObject = null;
-  }*/
-}
+  // initialize kakao.
+  Kakao.init('3acf383e8ccdb7b906df497c249ea01b');
+
+});*/
 
 /**
  * Confirm message with OK or Cancel buttons.
  * @param type
  */
 function confirmMessage(type) {
-
   switch (type) {
     case 'ok':
       editObject.element.classList.remove('helper');
@@ -540,7 +506,6 @@ function confirmMessage(type) {
         helpObject = {...commentTemplate};
       }*/
 
-      // removeEditables();
       break;
     case 'cancel':
 
@@ -548,7 +513,6 @@ function confirmMessage(type) {
       document.getElementById('nav').style.display = 'block';
       undoEmojiBtn.style.display = 'none';
       document.getElementById('confirm').style.display = 'none';
-      // removeEditables();
 
       // Remove xrelement our of Entity
       letsee.getEntityByUri("sticker.json").children.pop();
@@ -559,10 +523,6 @@ function confirmMessage(type) {
 
       break;
   }
-
-  // Reset default background for wrapper
-  contentWrapper.style.background = 'rgba(0, 0, 0, 0.8)';
-
 }
 
 /**
@@ -605,7 +565,6 @@ function writeComments(type) {
       contentWrapper.style.background = 'rgba(0, 0, 0, 0)';
       emojiSection.style.display = 'block';
       undoEmojiBtn.style.display = "block";
-      createEmojiBox();
       break;
   }
 
@@ -617,11 +576,9 @@ function writeComments(type) {
 function undoEmoji() {
   emojiSection.style.display = 'none';
   undoEmojiBtn.style.display = 'none';
-  contentWrapper.style.background = 'rgba(0, 0, 0, .8)';
 
   document.getElementById('nav').style.display = 'block';
   document.getElementById('confirm').style.display = 'none';
-  removeEditables();
 }
 
 /**
@@ -634,17 +591,19 @@ function removeAllRenderables() {
 
   // Remove all xrelement our of DOM
   let xrElements = document.getElementsByClassName('renderable');
-  let parentNode = xrElements[0].parentNode;
+  if (xrElements.length > 0) {
 
-  for(let i=0; i< xrElements.length; i++) {
-    // console.warn(xrElements[i]);
-    parentNode.removeChild(xrElements[i]);
+    let parentNode = xrElements[0].parentNode;
+
+    for(let i=0; i< xrElements.length; i++) {
+      // console.warn(xrElements[i]);
+      parentNode.removeChild(xrElements[i]);
+    }
+
+    // Remove the last item
+    let elem = document.querySelector(".renderable");
+    if (elem) elem.parentNode.removeChild(elem);
   }
-
-  // Remove the last item
-  let elem = document.querySelector(".renderable");
-  elem.parentNode.removeChild(elem);
-
 }
 
 /**
@@ -652,38 +611,19 @@ function removeAllRenderables() {
  */
 function showMainContent(){
   capture.style.display = 'none';
+
+  // Disable button at the first time
+  deleteBtn.removeEventListener('click', openRemoveModal);
+  kakaoShareBtn.removeEventListener('click', openKakaoModal);
+  writeCommentBtn.removeEventListener('click', () => writeComments('text') );
+  addEmoticonBtn.removeEventListener('click', () => writeComments('emoji') );
+
   if(window.location.search.substr(1) === "") {
     commentDiv.style.display = 'block';
   } else {
     shareMessage.style.display = 'block';
   }
 }
-
-$(document).ready(function() {
-  initBtnEvent();
-
-  if (window.location.search.substr(1) === "") {
-    // 저작 페이지
-  } else {
-    // 공유 페이지
-    commentDiv.style.display = 'none';
-    shareObjectId = window.location.search.substr(1);
-    getShareCommentsByObjectId(shareObjectId);
-    //const param = "aaa";// get parameter from url
-    var agent = navigator.userAgent.toLowerCase();
-
-    if (agent.indexOf("kakao") > -1) {
-      console.log("카카오 브라우저입니다.");
-      window.location.href = `intent://browser.letsee.io/clab-galaxy/index.html?${shareObjectId}#Intent;scheme=http;package=com.android.chrome;end`;
-    } else {
-      console.log("크롬 브라우저입니다.");
-    }
-  }
-
-  // initialize kakao.
-  Kakao.init('3acf383e8ccdb7b906df497c249ea01b');
-
-});
 
 window.onload = () => {
 
@@ -693,6 +633,7 @@ window.onload = () => {
   navMessage = document.getElementById('nav-message');
   contentWrapper = document.getElementById('content-wrapper');
   emojiSection = document.getElementById('ft-functions');
+  navGuide = document.getElementById('nav-guide');
 
   // input, form, box
   commentBox = document.getElementById('comment-box');
@@ -724,31 +665,38 @@ window.onload = () => {
   }
 
   guideHeaderStartBtn.addEventListener('click', function() {
+    navGuide.style.display = 'none';
     kakaoShareBtn.style.display = 'none';
-    document.getElementById('guide-share-arrow').style.display = 'none';
-    document.getElementById('guide-share-text').style.display = 'none';
-
     document.getElementById('guide-bg').style.display = 'none';
     navMessage.style.display = 'block';
+
+    // Enable button at the first time
+    deleteBtn.addEventListener('click', openRemoveModal);
+    kakaoShareBtn.addEventListener('click', openKakaoModal);
+    writeCommentBtn.addEventListener('click', () => writeComments('text') );
+    addEmoticonBtn.addEventListener('click', () => writeComments('emoji') );
   });
 
-  kakaoShareBtn.addEventListener('click', openKakaoModal);
   kakaoShareCancel.addEventListener('click', function() {
+    contentWrapper.style.background = 'rgba(0, 0, 0, 0)';
     document.getElementById('kakao-modal-box').style.display = 'none';
     document.getElementById('nav').style.display = 'block';
   });
   kakaoShareOK.addEventListener('click', function() {
+    contentWrapper.style.background = 'rgba(0, 0, 0, 0)';
     // kakaoCommentShare();
     document.getElementById('nav').style.display = 'block';
+    document.getElementById('kakao-modal-box').style.display = 'none';
   });
 
-  deleteBtn.addEventListener('click', openRemoveModal);
   removeCancelBtn.addEventListener('click', function() {
+    contentWrapper.style.background = 'rgba(0, 0, 0, 0)';
     document.getElementById('remove-modal-box').style.display = 'none';
     document.getElementById('nav').style.display = 'block';
   });
   removeOKBtn.addEventListener('click', function() {
 
+    contentWrapper.style.background = 'rgba(0, 0, 0, 0)';
     document.getElementById('remove-modal-box').style.display = 'none';
     document.getElementById('nav').style.display = 'block';
     kakaoShareBtn.style.display = 'none';
@@ -758,8 +706,7 @@ window.onload = () => {
     removeAllRenderables();
   });
 
-  writeCommentBtn.addEventListener('click', () => writeComments('text') );
-  addEmoticonBtn.addEventListener('click', () => writeComments('emoji') );
+
   undoEmojiBtn.addEventListener("click", undoEmoji);
 
   commentBoxOKBtn.addEventListener('click', () => messageBoxControl('ok'));
