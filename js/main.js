@@ -1,8 +1,26 @@
 
 let capture,
-    guideHeaderStartBtn;
+    guideHeaderStartBtn,
+    confirmOKBtn,
+    confirmCancelBtn,
+    kakaoShareBtn,
+    kakaoShareCancel,
+    kakaoShareOK,
+    writeCommentBtn,
+    addEmoticonBtn,
+    commentBoxCancelBtn,
+    commentBoxOKBtn,
+    undoEmojiBtn,
+    deleteBtn,
+    removeCancelBtn,
+    removeOKBtn;
 
-let commentDiv, shareMessage;
+let commentInput, commentBox;
+
+let commentDiv,
+    shareMessage,
+    navMessage,
+    contentWrapper, emojiSection;
 
 // THIS SCRIPT FOR COMMENT.HTML PAGE
 let editObject = null;
@@ -38,189 +56,9 @@ const commentTemplate= {
 };
 
 let commentObject = {...commentTemplate};
-let helpObject = {...commentTemplate};
+// let helpObject = {...commentTemplate};
 
-$(document).ready(function() {
-  initBtnEvent();
 
-  if (window.location.search.substr(1) === "") {
-    // 저작 페이지
-  } else {
-    // 공유 페이지
-    commentDiv.style.display = 'none';
-    shareObjectId = window.location.search.substr(1);
-    getShareCommentsByObjectId(shareObjectId);
-    //const param = "aaa";// get parameter from url
-    var agent = navigator.userAgent.toLowerCase();
-
-    if (agent.indexOf("kakao") > -1) {
-      console.log("카카오 브라우저입니다.");
-      window.location.href = `intent://browser.letsee.io/clab-galaxy/index.html?${shareObjectId}#Intent;scheme=http;package=com.android.chrome;end`;
-    } else {
-      console.log("크롬 브라우저입니다.");
-    }
-  }
-
-  // initialize kakao.
-  Kakao.init('3acf383e8ccdb7b906df497c249ea01b');
-
-  var emojiArray =[
-    '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '☺️', '😊',
-    '😇', '🙂', '🙃', '😉', '😌', '😍', '😘', '😗', '😙', '😚',
-    '😋', '😜', '😝', '😛', '🤑', '🤗', '🤓', '😎', '🤡', '🤠',
-    '😏', '😒', '😞', '😔', '😟', '😕', '🙁', '☹️', '😣', '😖',
-    '😫', '😩', '😤', '😠', '😡', '😶', '😐', '😑', '😯', '😦',
-    '😧', '😮', '😲', '😵', '😳', '😱', '😨', '😰', '😢', '😥',
-    '🤤', '😭', '😓', '😪', '😴', '🙄', '🤔', '🤥', '😬', '🤐',
-    '🤢', '🤧', '😷', '🤒', '🤕', '❤️', '💛', '💚', '💙', '💜', '🖤', '💔', '❣️', '💕', '💞',
-    '💓', '💗', '💖', '💘', '💝', '😈', '👿', '👹', '👺', '💩',
-    '👻', '💀', '☠️', '👽', '👾', '🤖', '🎃', '😺', '😸', '😹',
-    '😻', '😼', '😽', '🙀', '😿', '😾', '👐', '🙌', '👏', '🙏',
-    '🤝', '👍', '👎', '👊', '✊', '🤛', '🤜', '🤞', '✌️', '🤘',
-    '👌', '👈', '👉', '👆', '👇', '☝️', '✋', '🤚', '🖐', '🖖',
-    '👋', '🤙', '💪', '🖕', '✍️', '🤳', '💅', '🖖', '💄', '💋',
-    '👄', '👅', '👂', '👃', '👣', '👁', '👀', '🗣', '👤', '👥',
-    '🍏', '🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🍈',
-    '🍒', '🍑', '🍍', '🥝', '🥑', '🍅', '🍆', '🥒', '🥕', '🌽',
-    '🌶', '🥔', '🍠', '🌰', '🥜', '🍯', '🥐', '🍞', '🥖', '🧀',
-    '🥚', '🍳', '🥓', '🥞', '🍤', '🍗', '🍖', '🍕', '🌭', '🍔',
-    '🍟', '🥙', '🌮', '🌯', '🥗', '🥘', '🍝', '🍜', '🍲', '🍥',
-    '🍣', '🍱', '🍛', '🍚', '🍙', '🍘', '🍢', '🍡', '🍧', '🍨',
-    '🍦', '🍰', '🎂', '🍮', '🍭', '🍬', '🍫', '🍿', '🍩', '🍪',
-    '🥛', '🍼', '☕️', '🍵', '🍶', '🍺', '🍻', '🥂', '🍷', '🥃',
-    '🍸', '🍹', '🍾', '🥄', '🍴', '🍽',
-    '🌎', '🌍', '🌏', '🌕', '🌖', '🌗', '🌘', '🌑',
-    '🌒', '🌓', '🌔', '🌚', '🌝', '🌞', '🌛', '🌜', '🌙', '💫',
-    '⭐️', '🌟', '✨', '⚡️', '🔥', '💥', '☄️', '☀️', '🌤', '⛅️',
-    '🌥', '🌦', '🌈', '☁️', '🌧', '⛈', '🌩', '🌨', '☃️', '⛄️',
-    '❄️', '🌬', '💨', '🌪', '🌫', '🌊', '💧', '💦', '☔️',
-    '👶', '👦', '👧', '👨', '👩', '👱‍♀️', '👱', '👴', '👵', '👲',
-    '👳‍♀️', '👳', '👮‍♀️', '👮', '👷‍♀️', '👷', '💂‍♀️', '💂', '🕵️‍♀️', '🕵️',
-    '👩‍⚕️', '👨‍⚕️', '👩‍🌾', '👨‍🌾', '👩‍🍳', '👨‍🍳', '👩‍🎓', '👨‍🎓', '👩‍🎤', '👨‍🎤',
-    '👩‍🏫', '👨‍🏫', '👩‍🏭', '👨‍🏭', '👩‍💻', '👨‍💻', '👩‍💼', '👨‍💼', '👩‍🔧', '👨‍🔧',
-    '👩‍🔬', '👨‍🔬', '👩‍🎨', '👨‍🎨', '👩‍🚒', '👨‍🚒', '👩‍✈️', '👨‍✈️', '👩‍🚀', '👨‍🚀',
-    '👩‍⚖️', '👨‍⚖️', '🤶', '🎅', '👸', '🤴', '👰', '🤵', '👼', '🤰',
-    '🙇‍♀️', '🙇', '💁', '💁‍♂️', '🙅', '🙅‍♂️', '🙆', '🙆‍♂️', '🙋', '🙋‍♂️',
-    '🤦‍♀️', '🤦‍♂️', '🤷‍♀️', '🤷‍♂️', '🙎', '🙎‍♂️', '🙍', '🙍‍♂️', '💇', '💇‍♂️',
-    '💆', '💆‍♂️', '🕴', '💃', '🕺', '👯', '👯‍♂️', '🚶‍♀️', '🚶', '🏃‍♀️',
-    '🏃', '👫', '👭', '👬', '💑', '👩‍❤️‍👩', '👨‍❤️‍👨', '💏', '👩‍❤️‍💋‍👩', '👨‍❤️‍💋‍👨',
-    '👪', '👨‍👩‍👧', '👨‍👩‍👧‍👦', '👨‍👩‍👦‍👦', '👨‍👩‍👧‍👧', '👩‍👩‍👦', '👩‍👩‍👧', '👩‍👩‍👧‍👦', '👩‍👩‍👦‍👦', '👩‍👩‍👧‍👧',
-    '👨‍👨‍👦', '👨‍👨‍👧', '👨‍👨‍👧‍👦', '👨‍👨‍👦‍👦', '👨‍👨‍👧‍👧', '👩‍👦', '👩‍👧', '👩‍👧‍👦', '👩‍👦‍👦', '👩‍👧‍👧',
-    '👨‍👦', '👨‍👧', '👨‍👧‍👦', '👨‍👦‍👦', '👨‍👧‍👧', '👚', '👕', '👖', '👔', '👗',
-    '👙', '👘', '👠', '👡', '👢', '👞', '👟', '👒', '🎩', '🎓',
-    '👑', '⛑', '🎒', '👝', '👛', '👜', '💼', '👓', '🕶', '🌂',
-    '☂️', '🎀', '🎊', '🎉',
-    '🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯',
-    '🦁', '🐮', '🐷', '🐽', '🐸', '🐵', '🙊', '🙉', '🐒',
-    '🐔', '🐧', '🐦', '🐤', '🐣', '🐥', '🦆', '🦅', '🦉', '🦇',
-    '🐺', '🐗', '🐴', '🦄', '🐝', '🐛', '🦋', '🐌', '🐚', '🐞',
-    '🐜', '🕷', '🕸', '🐢', '🐍', '🦎', '🦂', '🦀', '🦑', '🐙',
-    '🦐', '🐠', '🐟', '🐡', '🐬', '🦈', '🐳', '🐋', '🐊', '🐆',
-    '🐅', '🐃', '🐂', '🐄', '🦌', '🐪', '🐫', '🐘', '🦏', '🦍',
-    '🐎', '🐖', '🐐', '🐏', '🐑', '🐕', '🐩', '🐈', '🐓', '🦃',
-    '🕊', '🐇', '🐁', '🐀', '🐿', '🐾', '🐉', '🐲', '🌵', '🎄',
-    '🌲', '🌳', '🌴', '🌱', '🌿', '☘️', '🍀', '🎍', '🎋', '🍃',
-    '🍂', '🍁', '🍄', '🌾', '💐', '🌷', '🌹', '🥀', '🌻', '🌼',
-    '🌸', '🌺',
-    '⚽️', '🏀', '🏈', '⚾️', '🎾', '🏐', '🏉', '🎱', '🏓', '🏸',
-    '🥅', '🏒', '🏑', '🏏', '⛳️', '🏹', '🎣', '🥊', '🥋', '⛸',
-    '🎿', '⛷', '🏂', '🏋️‍♀️', '🏋️', '🤺', '🤼‍♀️', '🤼‍♂️', '🤸‍♀️', '🤸‍♂️',
-    '⛹️‍♀️', '⛹️', '🤾‍♀️', '🤾‍♂️', '🏌️‍♀️', '🏌️', '🏄‍♀️', '🏄', '🏊‍♀️', '🏊',
-    '🤽‍♀️', '🤽‍♂️', '🚣‍♀️', '🚣', '🏇', '🚴‍♀️', '🚴', '🚵‍♀️', '🚵', '🎽',
-    '🏅', '🎖', '🥇', '🥈', '🥉', '🏆', '🏵', '🎗', '🎫', '🎟',
-    '🎪', '🤹‍♀️', '🤹‍♂️', '🎭', '🎨', '🎬', '🎤', '🎧', '🎼', '🎹',
-    '🥁', '🎷', '🎺', '🎸', '🎻', '🎲', '🎯', '🎳', '🎮', '🎰',
-    '🚗', '🚕', '🚙', '🚌', '🚎', '🏎', '🚓', '🚑', '🚒', '🚐',
-    '🚚', '🚛', '🚜', '🛴', '🚲', '🛵', '🏍', '🚨', '🚔', '🚍',
-    '🚘', '🚖', '🚡', '🚠', '🚟', '🚃', '🚋', '🚞', '🚝', '🚄',
-    '🚅', '🚈', '🚂', '🚆', '🚇', '🚊', '🚉', '🚁', '🛩', '✈️',
-    '🛫', '🛬', '🚀', '🛰', '💺', '🛶', '⛵️', '🛥', '🚤', '🛳',
-    '⛴', '🚢', '⚓️', '🚧', '⛽️', '🚏', '🚦', '🚥', '🗺', '🗿',
-    '🗽', '⛲️', '🗼', '🏰', '🏯', '🏟', '🎡', '🎢', '🎠', '⛱',
-    '🏖', '🏝', '⛰', '🏔', '🗻', '🌋', '🏜', '🏕', '⛺️', '🛤',
-    '🛣', '🏗', '🏭', '🏠', '🏡', '🏘', '🏚', '🏢', '🏬', '🏣',
-    '🏤', '🏥', '🏦', '🏨', '🏪', '🏫', '🏩', '💒', '🏛', '⛪️',
-    '🕌', '🕍', '🕋', '⛩', '🗾', '🎑', '🏞', '🌅', '🌄', '🌠',
-    '🎇', '🎆', '🌇', '🌆', '🏙', '🌃', '🌌', '🌉', '🌁',
-    '⌚️', '📱', '📲', '💻', '⌨️', '🖥', '🖨', '🖱', '🖲', '🕹',
-    '🗜', '💽', '💾', '💿', '📀', '📼', '📷', '📸', '📹', '🎥',
-    '📽', '🎞', '📞', '☎️', '📟', '📠', '📺', '📻', '🎙', '🎚',
-    '🎛', '⏱', '⏲', '⏰', '🕰', '⌛️', '⏳', '📡', '🔋', '🔌',
-    '💡', '🔦', '🕯', '🗑', '🛢', '💸', '💵', '💴', '💶', '💷',
-    '💰', '💳', '💎', '⚖️', '🔧', '🔨', '⚒', '🛠', '⛏', '🔩',
-    '⚙️', '⛓', '🔫', '💣', '🔪', '🗡', '⚔️', '🛡', '🚬', '⚰️',
-    '⚱️', '🏺', '🔮', '📿', '💈', '⚗️', '🔭', '🔬', '🕳', '💊',
-    '💉', '🌡', '🚽', '🚰', '🚿', '🛁', '🛀', '🛎', '🔑', '🗝',
-    '🚪', '🛋', '🛏', '🛌', '🖼', '🛍', '🛒', '🎁', '🎈', '🎏',
-    '🎎', '🏮', '🎐', '✉️', '📩', '📨', '📧',
-    '💌', '📥', '📤', '📦', '🏷', '📪', '📫', '📬', '📭', '📮',
-    '📯', '📜', '📃', '📄', '📑', '📊', '📈', '📉', '🗒', '🗓',
-    '📆', '📅', '📇', '🗃', '🗳', '🗄', '📋', '📁', '📂', '🗂',
-    '🗞', '📰', '📓', '📔', '📒', '📕', '📗', '📘', '📙', '📚',
-    '📖', '🔖', '🔗', '📎', '🖇', '📐', '📏', '📌', '📍',
-    '🎌', '🏳️', '🏴', '🏁', '✂️', '🖊', '🖋', '✒️', '🖌',
-    '🖍', '📝', '✏️', '🔍', '🔎', '🔏', '🔐', '🔒', '🔓',
-    '💟', '☮️', '✝️', '☪️', '🕉',
-    '☸️', '✡️', '🔯', '🕎', '☯️', '☦️', '🛐', '⛎', '♈️', '♉️',
-    '♊️', '♋️', '♌️', '♍️', '♎️', '♏️', '♐️', '♑️', '♒️', '♓️',
-    '🆔', '⚛️', '🉑', '☢️', '☣️', '📴', '📳', '🈶', '🈚️', '🈸',
-    '🈺', '🈷️', '✴️', '🆚', '💮', '🉐', '㊙️', '㊗️', '🈴', '🈵',
-    '🈹', '🈲', '🅰️', '🅱️', '🆎', '🆑', '🅾️', '🆘', '❌', '⭕️',
-    '🛑', '⛔️', '📛', '🚫', '💯', '💢', '♨️', '🚷', '🚯', '🚳',
-    '🚱', '🔞', '📵', '🚭', '❗️', '❕', '❓', '❔', '‼️', '⁉️',
-    '🔅', '🔆', '〽️', '⚠️', '🚸', '🔱', '⚜️', '🔰', '♻️', '✅',
-    '🈯️', '💹', '❇️', '✳️', '❎', '🌐', '💠', 'Ⓜ️', '🌀', '💤',
-    '🏧', '🚾', '♿️', '🅿️', '🈳', '🈂️', '🛂', '🛃', '🛄', '🛅',
-    '🚹', '🚺', '🚼', '🚻', '🚮', '🎦', '📶', '🈁', '🔣', 'ℹ️',
-    '🔤', '🔡', '🔠', '🆖', '🆗', '🆙', '🆒', '🆕', '🆓', '0️⃣', // 0
-    '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟', // 1, 2, 3, 4, 5, 6, 7, 8, 9
-    '🔢', '#️⃣', '*️⃣', '▶️', '⏸', '⏯', '⏹', '⏺', '⏭', '⏮',
-    '⏩', '⏪', '⏫', '⏬', '◀️', '🔼', '🔽', '➡️', '⬅️', '⬆️',
-    '⬇️', '↗️', '↘️', '↙️', '↖️', '↕️', '↔️', '↪️', '↩️', '⤴️',
-    '⤵️', '🔀', '🔁', '🔂', '🔄', '🔃', '🎵', '🎶', '➕', '➖',
-    '➗', '✖️', '💲', '💱', '™️', '©️', '®️', '〰️', '➰', '➿',
-    '🔚', '🔙', '🔛', '🔝', '✔️', '☑️', '🔘', '⚪️', '⚫️', '🔴',
-    '🔵', '🔺', '🔻', '🔸', '🔹', '🔶', '🔷', '🔳', '🔲', '▪️',
-    '▫️', '◾️', '◽️', '◼️', '◻️', '⬛️', '⬜️', '🔈', '🔇', '🔉',
-    '🔊', '🔔', '🔕', '📣', '📢', '👁‍🗨', '💬', '💭', '🗯', '♠️',
-    '♣️', '♥️', '♦️', '🃏', '🎴', '🀄️', '🕐', '🕑', '🕒', '🕓',
-    '🕔', '🕕', '🕖', '🕗', '🕘', '🕙', '🕚', '🕛', '🕜', '🕝',
-    '🕞', '🕟', '🕠', '🕡', '🕢', '🕣', '🕤', '🕥', '🕦', '🕧',
-    '🏳️', '🏴', '🏁', '🚩', '🏳️‍🌈', '🇦🇫', '🇦🇽', '🇦🇱', '🇩🇿', '🇦🇸',
-    '🇦🇩', '🇦🇴', '🇦🇮', '🇦🇶', '🇦🇬', '🇦🇷', '🇦🇲', '🇦🇼', '🇦🇺', '🇦🇹',
-    '🇦🇿', '🇧🇸', '🇧🇭', '🇧🇩', '🇧🇧', '🇧🇾', '🇧🇪', '🇧🇿', '🇧🇯', '🇧🇲',
-    '🇧🇹', '🇧🇴', '🇧🇦', '🇧🇼', '🇧🇷', '🇮🇴', '🇻🇬', '🇧🇳', '🇧🇬', '🇧🇫',
-    '🇧🇮', '🇰🇭', '🇨🇲', '🇨🇦', '🇮🇨', '🇨🇻', '🇧🇶', '🇰🇾', '🇨🇫', '🇹🇩',
-    '🇨🇱', '🇨🇳', '🇨🇽', '🇨🇨', '🇨🇴', '🇰🇲', '🇨🇬', '🇨🇩', '🇨🇰', '🇨🇷',
-    '🇨🇮', '🇭🇷', '🇨🇺', '🇨🇼', '🇨🇾', '🇨🇿', '🇩🇰', '🇩🇯', '🇩🇲', '🇩🇴',
-    '🇪🇨', '🇪🇬', '🇸🇻', '🇬🇶', '🇪🇷', '🇪🇪', '🇪🇹', '🇪🇺', '🇫🇰', '🇫🇴',
-    '🇫🇯', '🇫🇮', '🇫🇷', '🇬🇫', '🇵🇫', '🇹🇫', '🇬🇦', '🇬🇲', '🇬🇪', '🇩🇪',
-    '🇬🇭', '🇬🇮', '🇬🇷', '🇬🇱', '🇬🇩', '🇬🇵', '🇬🇺', '🇬🇹', '🇬🇬', '🇬🇳',
-    '🇬🇼', '🇬🇾', '🇭🇹', '🇭🇳', '🇭🇰', '🇭🇺', '🇮🇸', '🇮🇳', '🇮🇩', '🇮🇷',
-    '🇮🇶', '🇮🇪', '🇮🇲', '🇮🇱', '🇮🇹', '🇯🇲', '🇯🇵', '🎌', '🇯🇪', '🇯🇴',
-    '🇰🇿', '🇰🇪', '🇰🇮', '🇽🇰', '🇰🇼', '🇰🇬', '🇱🇦', '🇱🇻', '🇱🇧', '🇱🇸',
-    '🇱🇷', '🇱🇾', '🇱🇮', '🇱🇹', '🇱🇺', '🇲🇴', '🇲🇰', '🇲🇬', '🇲🇼', '🇲🇾',
-    '🇲🇻', '🇲🇱', '🇲🇹', '🇲🇭', '🇲🇶', '🇲🇷', '🇲🇺', '🇾🇹', '🇲🇽', '🇫🇲',
-    '🇲🇩', '🇲🇨', '🇲🇳', '🇲🇪', '🇲🇸', '🇲🇦', '🇲🇿', '🇲🇲', '🇳🇦', '🇳🇷',
-    '🇳🇵', '🇳🇱', '🇳🇨', '🇳🇿', '🇳🇮', '🇳🇪', '🇳🇬', '🇳🇺', '🇳🇫', '🇰🇵',
-    '🇲🇵', '🇳🇴', '🇴🇲', '🇵🇰', '🇵🇼', '🇵🇸', '🇵🇦', '🇵🇬', '🇵🇾', '🇵🇪',
-    '🇵🇭', '🇵🇳', '🇵🇱', '🇵🇹', '🇵🇷', '🇶🇦', '🇷🇪', '🇷🇴', '🇷🇺', '🇷🇼',
-    '🇼🇸', '🇸🇲', '🇸🇦', '🇸🇳', '🇷🇸', '🇸🇨', '🇸🇱', '🇸🇬', '🇸🇽', '🇸🇰',
-    '🇸🇮', '🇬🇸', '🇸🇧', '🇸🇴', '🇿🇦', '🇰🇷', '🇸🇸', '🇪🇸', '🇱🇰', '🇧🇱',
-    '🇸🇭', '🇰🇳', '🇱🇨', '🇵🇲', '🇻🇨', '🇸🇩', '🇸🇷', '🇸🇿', '🇸🇪', '🇨🇭',
-    '🇸🇾', '🇹🇼', '🇹🇯', '🇹🇿', '🇹🇭', '🇹🇱', '🇹🇬', '🇹🇰', '🇹🇴', '🇹🇹',
-    '🇹🇳', '🇹🇷', '🇹🇲', '🇹🇨', '🇹🇻', '🇻🇮', '🇺🇬', '🇺🇦', '🇦🇪', '🇬🇧',
-    '🇺🇸', '🇺🇾', '🇺🇿', '🇻🇺', '🇻🇦', '🇻🇪', '🇻🇳', '🇼🇫', '🇪🇭', '🇾🇪',
-    '🇿🇲', '🇿🇼',
-  ];
-  // for(var i = emojiArray.length; i--;){
-  for(var i = 0; i < emojiArray.length; i++){
-    var span = document.createElement('span');
-    span.innerHTML = '<span onclick="addEmoji(\''+emojiArray[i]+'\');">'+emojiArray[i]+'</span>';
-    document.querySelector('.emoji-box-item').appendChild(span);
-  }
-
-});
 
 $('#comment-box-content').focusout(function (e) {
   $('#comment-box-nickname').focus();
@@ -228,160 +66,97 @@ $('#comment-box-content').focusout(function (e) {
 
 function finishComment() {
   document.getElementById('comment-success').style.display = 'none';
-  document.getElementById('nav-text').style.display = 'block';
+  writeCommentBtn.style.display = 'block';
   document.getElementById('nav-emo').style.display = 'block';
 }
 
 function cancelCommentBox() {
   document.getElementById('nav').style.display = 'block';
-  document.getElementById('nav-text').style.display = 'block';
+  writeCommentBtn.style.display = 'block';
   document.getElementById('nav-emo').style.display = 'block';
-  document.getElementById('comment-box').style.display = 'none';
+  commentBox.style.display = 'none';
   // world.remove(editObject);
 }
 
+/**
+ * Kakao sharing
+ */
 function openKakaoModal() {
-  document.getElementById('kakao-modal-bg').style.display = 'block';
   document.getElementById('nav').style.display = 'none';
+  document.getElementById('kakao-modal-box').style.display = 'flex';
 }
 
+/**
+ * Delete all messages
+ */
 function openRemoveModal() {
-  document.getElementById('remove-modal-bg').style.display = 'block';
+  navMessage.style.display = 'none';
+  // document.getElementById('remove-modal-bg').style.display = 'block';
+
+  document.getElementById('remove-modal-box').style.display = 'block';
   document.getElementById('nav').style.display = 'none';
 }
 
-// Called when user clicks on 'Comments' button
-function writeComments() {
-  document.getElementById('emotions').style.display = 'none';
-  document.getElementById('comment-box').style.display = 'block';
-  document.getElementById('nav').style.display = 'none';
-}
-
-// Called when user clicks on each emotion to add
+/**
+ * Called when users click on Emoticon to start
+ */
 function createEmojiBox(){
-  document.getElementById('confirm').style.display = 'none';
+  /*document.getElementById('confirm').style.display = 'none';
   document.getElementById('emotions').style.display = 'block';
-  document.getElementById('comment-box').style.display = "none";
-  //document.getElementById('guide').style.display = "none";
+  commentBox.style.display = "none";
   document.getElementById('nav').style.display = "none";
   document.getElementById('undo').style.display = "block";
   document.querySelector('.emoji-box-item').appendChild(document.createElement('br'));
-  document.querySelector('.emoji-box-item').appendChild(document.createElement('br'));
+  document.querySelector('.emoji-box-item').appendChild(document.createElement('br'));*/
 
   removeEditables();
 }
 
 // This button event is for confirm buttons
 function initBtnEvent() {
-  document.getElementById("undo").addEventListener("click", function() {
-    document.getElementById('emotions').style.display = 'none';
-    document.getElementById('nav').style.display = 'block';
-    document.getElementById("undo").style.display = 'none';
-    document.getElementById('confirm').style.display = 'none';
-    removeEditables();
-  });
-
-  document.getElementById("confirm-button-cancel").addEventListener("click", function() {
-    document.getElementById('emotions').style.display = 'none';
-    document.getElementById('nav').style.display = 'block';
-    document.getElementById("undo").style.display = 'none';
-    document.getElementById('confirm').style.display = 'none';
-    removeEditables();
-  });
-
-  document.getElementById('confirm-button-ok').addEventListener('click', function() {
-
-    editObject.element.classList.remove('helper');
-
-    document.getElementById('emotions').style.display = 'none';
-    document.getElementById('nav').style.display = 'block';
-    document.getElementById("undo").style.display = 'none';
-    document.getElementById('confirm').style.display = 'none';
-    document.getElementById('nav-kakao').style.display = 'block';
-
-    if(editObject !== null) {
-      renderItems.push(editObject);
-      editObject = null;
-      commentsIndex ++;
-    }
-
-    if(helpObject !== null) {
-      // world.remove(helpObject);
-      helpObject = {...commentTemplate};
-    }
-
-    removeEditables();
-  });
 
 
 
-  document.getElementById('kakao-modal-footer-cancel').addEventListener('click', function() {
-    document.getElementById('kakao-modal-bg').style.display = 'none';
-    document.getElementById('nav').style.display = 'block';
-  });
 
-  document.getElementById('kakao-modal-footer-ok').addEventListener('click', function() {
-    kakaoCommentShare();
-    document.getElementById('kakao-modal-bg').style.display = 'none';
-    document.getElementById('nav').style.display = 'block';
-  });
 
-  document.getElementById('remove-modal-footer-cancel').addEventListener('click', function() {
-    document.getElementById('remove-modal-bg').style.display = 'none';
-    document.getElementById('nav').style.display = 'block';
-  });
 
-  document.getElementById('remove-modal-footer-ok').addEventListener('click', function() {
 
-    renderItems.forEach(function(item) {
-      // world.remove(item);
-    });
 
-    renderItems = [];
 
-    document.getElementById('remove-modal-bg').style.display = 'none';
-    document.getElementById('nav').style.display = 'block';
-    document.getElementById('nav-kakao').style.display = 'none';
-  });
+
+
+
+
+
+
 }
 
-// remove renderable object from the world
-function removeEditables() {
-  if(editObject !== null) {
-    // world.remove(editObject);
-    editObject = null;
-    commentsIndex --;
-  }
 
-  if(helpObject!== null) {
-    // world.remove(helpObject);
-    helpObject = null;
-  }
-}
 
 /**
  * User adds comments by clicking on 저장 button.
  */
 function addComments() {
-  let cmt_content = document.getElementById('comment-box-content').value;
+  let cmt_content = commentInput.value;
   let content_bytes = getBytesString(cmt_content.toString());
 
   if (content_bytes > 30 || content_bytes === 0 || cmt_content === null || cmt_content === '') {
-    document.getElementById('comment-box-content').style.border = '1px solid red';
+    commentInput.style.border = '1px solid red';
     window.alert("내용을 15자 이내로 간단하게 남겨주세요!");
     return;
   }
 
   if (cmt_content.toString().length <= 30 ) {
     // Open the confirm panel, so that users can update the position and orientation
-    document.getElementById('comment-box').style.display = 'none';
+    commentBox.style.display = 'none';
     document.getElementById('confirm').style.display = 'block';
-    commentDiv.style.display = 'none';
+    contentWrapper.style.background = 'rgba(0, 0, 0, 0)';
+    navMessage.style.display = 'none';
 
     let str_count = cmt_content.toString().length;
-    let helpDiv = createHelpDiv('comment', str_count);
-    // const help = createHelpRenderable(helpDiv);
-    // world.add(help);
+    /*let helpDiv = createHelpDiv('comment', str_count);
+    const help = createHelpRenderable(helpDiv);
+    world.add(help);*/
 
     const type = 'comment';
     const div = createCommentDiv(cmt_content);
@@ -392,11 +167,11 @@ function addComments() {
 
   }
   // reset input and close the confirm panel
-  document.getElementById('comment-box-content').value = '';
+  commentInput.value = '';
 }
 
 /**
- * Create comment div element for user message.
+ * Create comment div element for text message.
  * @param comment
  * @returns {string}
  */
@@ -413,30 +188,24 @@ function createCommentDiv(comment) {
 // User adds emotions
 function addEmoji(i) {
   console.log('add emotions: ' + i);
-  document.getElementById('emotions').style.display = 'none';
+  emojiSection.style.display = 'none';
+  undoEmojiBtn.style.display = 'none';
+
   document.getElementById('confirm').style.display = 'block';
-  document.getElementById('undo').style.display = 'none';
+  undoEmojiBtn.style.display = 'none';
 
-  manager.resetPosition();
+  // manager.resetPosition();
 
-  let helpDiv = createHelpDiv('emoji');
+  /*let helpDiv = createHelpDiv('emoji');
   const help = createHelpRenderable(helpDiv);
-  // world.add(help);
+  world.add(help);*/
 
   const type = 'emoji';
-  /*const div =
-      `
-					<div class="imagebox">
-						<div class="emo-items" style="font-size: 30px">${i}</div>
-					</div>
-				`;*/
-  const div =
-      `
-					<div class="wrap"><div class="emoji"><div class="value" style="font-size: 50px">${i}</div></div></div>
-				`;
+  const div = `<div class="wrap"><div class="emoji"><div class="value">${i}</div></div></div>`;
 
   const emojiRenderable = createCommentRenderable(div, type);
-  // world.add(emojiRenderable);
+  emojiRenderable.element.classList.add('renderable', 'helper');
+
   confirmBoxIndex = "emoji";
 }
 
@@ -484,7 +253,7 @@ function createCommentRenderable(_value, _type) {
   return renderable;
 }
 
-function createHelpDiv(type, str_count) {
+/*function createHelpDiv(type, str_count) {
   let helpDiv;
   if(type === "comment") {
     let width = 50 + str_count * 17;
@@ -515,9 +284,9 @@ function createHelpDiv(type, str_count) {
   }
 
   return helpDiv;
-}
+}*/
 
-function createHelpRenderable(_value) {
+/*function createHelpRenderable(_value) {
   let position = [0, 0, (-3 * commentsIndex) - 15];
   let rotation = [0, 0, 0];
   let scale = [1, 1, 1];
@@ -528,7 +297,7 @@ function createHelpRenderable(_value) {
   helpObject = renderable;
 
   return renderable;
-}
+}*/
 
 // Function to get uuid
 function UUID() {
@@ -635,15 +404,14 @@ function hideRenderables() {
   })
 }
 
-function showRenderables() {
-  let commentBox = document.getElementById('comment-box');
+/*function showRenderables() {
   let emotions = document.getElementById('emotions');
 
   if(commentBox.style.display !== 'block' && emotions.style.display !== 'block')
     renderItems.forEach(function(item) {
       // world.add(item);
     })
-}
+}*/
 
 function resetKakaoDefaultButtonUrl(objectId) {
   Kakao.Link.createDefaultButton({
@@ -715,12 +483,168 @@ function getBytesString(str)
   return len;
 }
 
-function kakaoCommentShare() {
+/**
+ * Share messages by Kakao
+ * TODO: At the moment, cannot use Parse server
+ */
+/*function kakaoCommentShare() {
   postShareComments(renderItems)
   .then(() => {
     resetKakaoDefaultButtonUrl(shareObjectId);
     $("#kakao-link").trigger('click');
   });
+}*/
+
+/**
+ * remove renderable object from the world
+ */
+function removeEditables() {
+  if(editObject !== null) {
+    // world.remove(editObject);
+    editObject = null;
+    commentsIndex --;
+  }
+
+  /*if(helpObject!== null) {
+    // world.remove(helpObject);
+    helpObject = null;
+  }*/
+}
+
+/**
+ * Confirm message with OK or Cancel buttons.
+ * @param type
+ */
+function confirmMessage(type) {
+
+  switch (type) {
+    case 'ok':
+      editObject.element.classList.remove('helper');
+
+      emojiSection.style.display = 'none';
+      document.getElementById('nav').style.display = 'block';
+      undoEmojiBtn.style.display = 'none';
+      document.getElementById('confirm').style.display = 'none';
+      kakaoShareBtn.style.display = 'block';
+      document.getElementById('guide-share-arrow').style.display = 'block';
+      document.getElementById('guide-share-text').style.display = 'block';
+
+      if(editObject !== null) {
+        renderItems.push(editObject);
+        editObject = null;
+        commentsIndex ++;
+      }
+
+      /*if(helpObject !== null) {
+        // world.remove(helpObject);
+        helpObject = {...commentTemplate};
+      }*/
+
+      // removeEditables();
+      break;
+    case 'cancel':
+
+      emojiSection.style.display = 'none';
+      document.getElementById('nav').style.display = 'block';
+      undoEmojiBtn.style.display = 'none';
+      document.getElementById('confirm').style.display = 'none';
+      // removeEditables();
+
+      // Remove xrelement our of Entity
+      letsee.getEntityByUri("sticker.json").children.pop();
+
+      // Remove xrelement our of DOM
+      let elem = document.querySelector(".helper");
+      elem.parentNode.removeChild(elem);
+
+      break;
+  }
+
+  // Reset default background for wrapper
+  contentWrapper.style.background = 'rgba(0, 0, 0, 0.8)';
+
+}
+
+/**
+ * Control the message box when users type the text message.
+ * @param type
+ */
+function messageBoxControl(type) {
+  switch (type) {
+    case 'ok': addComments(); break;
+    case 'cancel': cancelCommentBox(); break;
+  }
+}
+
+/**
+ * Called when users start to write comments or add emoji.
+ * @param type
+ */
+function writeComments(type) {
+
+  // reset dimmy background
+  contentWrapper.style.background = 'rgba(0, 0, 0, 0.8)';
+
+  // hide guide message
+  navMessage.style.display = 'none';
+
+  document.getElementById('nav').style.display = 'none';
+
+  switch (type) {
+    case 'text':
+      commentBox.style.display = 'block';
+
+      // reset input and close the confirm panel
+      commentInput.value = '';
+      $('#comment-box-content').focus();
+
+      emojiSection.style.display = 'none';
+
+      break;
+    case 'emoji':
+      contentWrapper.style.background = 'rgba(0, 0, 0, 0)';
+      emojiSection.style.display = 'block';
+      undoEmojiBtn.style.display = "block";
+      createEmojiBox();
+      break;
+  }
+
+}
+
+/**
+ * Undo Emoji
+ */
+function undoEmoji() {
+  emojiSection.style.display = 'none';
+  undoEmojiBtn.style.display = 'none';
+  contentWrapper.style.background = 'rgba(0, 0, 0, .8)';
+
+  document.getElementById('nav').style.display = 'block';
+  document.getElementById('confirm').style.display = 'none';
+  removeEditables();
+}
+
+/**
+ * Remove all xr elements out of Entity and HTML DOM.
+ */
+function removeAllRenderables() {
+
+  // Remove all xrelement our of Entity
+  letsee.getEntityByUri("sticker.json").children = [];
+
+  // Remove all xrelement our of DOM
+  let xrElements = document.getElementsByClassName('renderable');
+  let parentNode = xrElements[0].parentNode;
+
+  for(let i=0; i< xrElements.length; i++) {
+    // console.warn(xrElements[i]);
+    parentNode.removeChild(xrElements[i]);
+  }
+
+  // Remove the last item
+  let elem = document.querySelector(".renderable");
+  elem.parentNode.removeChild(elem);
+
 }
 
 /**
@@ -735,18 +659,113 @@ function showMainContent(){
   }
 }
 
+$(document).ready(function() {
+  initBtnEvent();
+
+  if (window.location.search.substr(1) === "") {
+    // 저작 페이지
+  } else {
+    // 공유 페이지
+    commentDiv.style.display = 'none';
+    shareObjectId = window.location.search.substr(1);
+    getShareCommentsByObjectId(shareObjectId);
+    //const param = "aaa";// get parameter from url
+    var agent = navigator.userAgent.toLowerCase();
+
+    if (agent.indexOf("kakao") > -1) {
+      console.log("카카오 브라우저입니다.");
+      window.location.href = `intent://browser.letsee.io/clab-galaxy/index.html?${shareObjectId}#Intent;scheme=http;package=com.android.chrome;end`;
+    } else {
+      console.log("크롬 브라우저입니다.");
+    }
+  }
+
+  // initialize kakao.
+  Kakao.init('3acf383e8ccdb7b906df497c249ea01b');
+
+});
+
 window.onload = () => {
 
+  // nav
   commentDiv = document.getElementById('comment-div');
   shareMessage = document.getElementById('share-message');
+  navMessage = document.getElementById('nav-message');
+  contentWrapper = document.getElementById('content-wrapper');
+  emojiSection = document.getElementById('ft-functions');
 
+  // input, form, box
+  commentBox = document.getElementById('comment-box');
+  commentInput = document.getElementById('comment-box-content');
+
+  // buttons
   capture = document.getElementById('capture');
   guideHeaderStartBtn = document.getElementById('guide-header-btn-start');
+  writeCommentBtn = document.getElementById('nav-text');
+  addEmoticonBtn = document.getElementById('nav-emo');
+  kakaoShareBtn = document.getElementById('nav-kakao');
+  kakaoShareCancel = document.getElementById('kakao-modal-footer-cancel');
+  kakaoShareOK = document.getElementById('kakao-modal-footer-ok');
+  confirmOKBtn = document.getElementById('confirm-button-ok');
+  confirmCancelBtn = document.getElementById('confirm-button-cancel');
+  commentBoxCancelBtn = document.getElementById('btCancel-box');
+  commentBoxOKBtn = document.getElementById('btOK-box');
+  undoEmojiBtn = document.getElementById('undo');
+  deleteBtn = document.getElementById('nav-garbage');
+  removeCancelBtn = document.getElementById('remove-modal-footer-cancel');
+  removeOKBtn = document.getElementById('remove-modal-footer-ok');
 
+  // Initialize emoji list
+  for(let i = 0; i < emojiArray.length; i++){
+    let testBtn = document.createElement('button');
+    testBtn.classList.add('emojiBtn');
+    testBtn.innerHTML = '<span onclick="addEmoji(\''+emojiArray[i]+'\')">'+emojiArray[i]+'</span>';
+    document.querySelector('.emoji-box-item').appendChild(testBtn);
+  }
 
   guideHeaderStartBtn.addEventListener('click', function() {
-    document.getElementById('nav-kakao').style.display = 'none';
+    kakaoShareBtn.style.display = 'none';
+    document.getElementById('guide-share-arrow').style.display = 'none';
+    document.getElementById('guide-share-text').style.display = 'none';
+
     document.getElementById('guide-bg').style.display = 'none';
-    document.getElementById('nav-message').style.display = 'block';
+    navMessage.style.display = 'block';
   });
+
+  kakaoShareBtn.addEventListener('click', openKakaoModal);
+  kakaoShareCancel.addEventListener('click', function() {
+    document.getElementById('kakao-modal-box').style.display = 'none';
+    document.getElementById('nav').style.display = 'block';
+  });
+  kakaoShareOK.addEventListener('click', function() {
+    // kakaoCommentShare();
+    document.getElementById('nav').style.display = 'block';
+  });
+
+  deleteBtn.addEventListener('click', openRemoveModal);
+  removeCancelBtn.addEventListener('click', function() {
+    document.getElementById('remove-modal-box').style.display = 'none';
+    document.getElementById('nav').style.display = 'block';
+  });
+  removeOKBtn.addEventListener('click', function() {
+
+    document.getElementById('remove-modal-box').style.display = 'none';
+    document.getElementById('nav').style.display = 'block';
+    kakaoShareBtn.style.display = 'none';
+    document.getElementById('guide-share-arrow').style.display = 'none';
+    document.getElementById('guide-share-text').style.display = 'none';
+
+    removeAllRenderables();
+  });
+
+  writeCommentBtn.addEventListener('click', () => writeComments('text') );
+  addEmoticonBtn.addEventListener('click', () => writeComments('emoji') );
+  undoEmojiBtn.addEventListener("click", undoEmoji);
+
+  commentBoxOKBtn.addEventListener('click', () => messageBoxControl('ok'));
+  commentBoxCancelBtn.addEventListener('click', () => messageBoxControl('cancel'));
+
+  confirmOKBtn.addEventListener('click', () => confirmMessage('ok') );
+  confirmCancelBtn.addEventListener('click', () => confirmMessage('cancel') );
+
 }

@@ -288,7 +288,7 @@ html, body {
 #undo {
 	position:absolute;
 	right:4%;
-	bottom:16%;
+	bottom:30%;
 	width:50px;
 	height:50px;
 	z-index: 3
@@ -302,7 +302,7 @@ html, body {
 	padding: 5%;
 	border-radius: 10px;
 	background: white;
-	z-index: 1;
+	z-index: 200;
 }
 
 #comment-box #comment-box-input {
@@ -456,44 +456,45 @@ html, body {
 
 #ft-functions {
 	width: 100%;
-	position: absolute;
+	height: 200px;
+	position: fixed;
 	left: 0;
 	bottom: 0;
 	padding: 0;
 	margin: 0 auto;
 	overflow: hidden;
-	display: block;
+	display: none;
 	text-align: center;
-	z-index:2;
+	z-index:200;
+
+	border-radius: 60px 60px 0 0;
+	-webkit-backdrop-filter: blur(8.4px);
+	backdrop-filter: blur(8.4px);
+	background: rgba(16, 16, 16, 0.5);
+}
+#emotions {
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
-#ft-functions * {
-	z-index: 2;
-}
-
-#ft-functions #func {
-	height: 100%;
-	/*background: rgba(255,255,255, 0.6);*/
-	/*background: rgba(46,139,87, 0.6);*/
-}
-#ft-functions img {
+/*#ft-functions img {
 	width: 60%;
 	margin-top: 27%;
 	margin-bottom: 45%;
-}
-#ft-functions #cm-text {
+}*/
+/*#ft-functions #cm-text {
 	width: 60px;
 	height: 60px;
 	background: rgba(255,255,255, 0.6);
 	border-radius: 100%;
 	border: 14px solid rgba(0,0,139, 1);
-	/*margin-top: 20%;*/
+	!*margin-top: 20%;*!
 	margin-right: 5%;
 	-webkit-box-shadow: 5px 5px 15px 0 rgba(0,0,139, 0.6);
 	-moz-box-shadow: 5px 5px 15px 0 rgba(0,0,139, 0.6);
 	box-shadow: 5px 5px 15px 0 rgba(0,0,139, 0.6);
-}
-#ft-functions #cm-emo {
+}*/
+/*#ft-functions #cm-emo {
 	width: 60px;
 	height: 60px;
 	background: rgba(255,255,255, 0.6);
@@ -502,35 +503,33 @@ html, body {
 	-webkit-box-shadow: 5px 5px 15px 0 rgba(255,105,180,0.6);
 	-moz-box-shadow: 5px 5px 15px 0 rgba(255,105,180,0.6);
 	box-shadow: 5px 5px 15px 0 rgba(255,105,180,0.6);
-}
-#ft-functions .cm-title {
+}*/
+/*#ft-functions .cm-title {
 	font-weight: bold;
 	font-size: 16px;
 	margin-top: 10%;
 	text-align: center;
-}
-#ft-functions #emotions {
-	width: 100%;
-	height: 16%;
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	padding: 0;
-	margin: 0 auto;
-	/*background: rgba(255,255,255, 0.6);*/
-	overflow: scroll;
-	max-width: 100%;
-	overflow-x: hidden;
-}
+}*/
+
 #ft-functions #emotions .emoji-box-item {
 	width: 90%;
-	margin-top: 2%;
-	margin-left: 5%;
+	margin: 22px auto;
+	height: 180px;
 }
 #ft-functions #emotions .emoji-box-item span {
 	font-size: 36px;
 	/*margin: 5% auto;*/
-	letter-spacing: 10px;
+	/*letter-spacing: 10px;*/
+}
+.emoji-box-item button {
+	background: none;
+	font-size: 32px;
+	width: 32px;
+	padding: 3px 7px;
+	text-align: center;
+	line-height: 40px;
+	box-sizing: content-box;
+	border: none;
 }
 
 .inline {
@@ -562,38 +561,45 @@ html, body {
 
 
 #kakao-modal-bg{
-	position:absolute;
-	width:100%;
-	height:100%;
-	background-color: rgba(0, 0, 0, 0.7);
-	padding-left:5%;
-	padding-right:5%;
+	position: absolute;
+	width: 100%;
+	height: 200px;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
 }
 
 #kakao-modal-box {
-	width:100%;
-	height:23%;
-	margin-top:50%;
 	background-color: #ffffff;
-	padding:30px 30px 15px 30px;
-	border-radius: 10px;
+	position: absolute;
+	width: 90%;
+	height: 200px;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	z-index: 200;
+	border: none;
+	border-radius: 5px;
 }
 
 #kakao-modal-header {
-	height:50%;
+	height: 100px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
 }
 
 #kakao-modal-header-img {
-	float:left;
-	width:25%;
-	text-align: right;
-	padding-right: 6%;
-	padding-top:5px;
+
 }
 
 #kakao-modal-header-text {
-	width:75%;
-	float:right;
+	margin-left: 20px;
 }
 
 #kakao-modal-header-text > p{
@@ -604,70 +610,62 @@ html, body {
 }
 
 #kakao-modal-footer {
-	height:50%;
-	padding-top:7%;
+	padding: 30px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
 }
 
 #kakao-modal-footer-ok {
-	width:46%;
-	float:right;
-}
-
-
-#kakao-modal-footer-ok > button {
-	width:100%;
+	padding: 6px 50px;
+	margin-left: 10px;
 	font-size: 16px;
 	line-height: 1.67;
 	color: #ffffff;
-    background: #30AEC3;
-    outline:2px solid #30AEC3;
-    border:none;
-    padding:3px
-
+	background: #30AEC3;
+	border: 1px solid #30AEC3;
+	border-radius: 3px;
 }
 
 #kakao-modal-footer-cancel {
-	width:46%;
-	float:left;
-}
-
-#kakao-modal-footer-cancel > button {
-	width:100%;
 	font-size: 16px;
 	line-height: 1.67;
 	color: #000000;
-	background-color:#FFFFFF;
-    border:none;
-    border-radius: 3px;
-    outline:2px solid #30AEC3;
-    padding:3px
-}
-
-#remove-modal-bg{
-	position:absolute;
-	width:100%;
-	height:100%;
-	background-color: rgba(0, 0, 0, 0.7);
-	padding-left:10%;
-	padding-right:10%;
+	background-color: #FFFFFF;
+	border: 1px solid #30AEC3;
+	border-radius: 3px;
+	padding: 6px 40px;
 }
 
 #remove-modal-box {
-	width:100%;
-	height:18%;
-	margin-top:50%;
-    background-color: #ffffff;
-	padding:5% 5% 3% 7%;
-    border-radius: 5px;
+	background-color: #ffffff;
+	position: absolute;
+	width: 90%;
+	height: 200px;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	z-index: 200;
+	border: none;
+	border-radius: 5px;
 }
 
 #remove-modal-header {
-	text-align: center;
-	height:60%;
+	height: 110px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
 }
 
 #remove-modal-header-text {
-	width: 100%;
+
 }
 
 #remove-modal-header-text > p{
@@ -676,46 +674,38 @@ html, body {
 	font-size: 20px;
 	line-height: 1.67;
 	color: #000000;
+	margin-top: 20px;
 }
 
 #remove-modal-footer {
-	height:40%;
-	padding-top:3%;
+	padding: 20px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
 }
 
 #remove-modal-footer-ok {
-	width:43%;
-	float:right;
-}
-
-#remove-modal-footer-ok > button {
-	width:100%;
+	padding: 6px 50px;
+	margin-left: 10px;
 	font-size: 16px;
 	line-height: 1.67;
-	color: #000000;
-	background: rgba(6,143,168,1);
-    outline: none;
-    border:none;
-    border-radius: 5px;
+	color: #ffffff;
+	background: #ff4a00;
+	border: 1px solid #ff4a00;
+	border-radius: 3px;
 }
 
 #remove-modal-footer-cancel {
-	width:43%;
-	float:left;
-}
-
-#remove-modal-footer-cancel > button {
-	width:100%;
 	font-size: 16px;
 	line-height: 1.67;
 	color: #000000;
-	background-color:#E3E3E3;
-    outline: none;
-    border:none;
-    border-radius: 5px;
+	background-color: #FFFFFF;
+	border: 1px solid #ff4a00;
+	border-radius: 3px;
+	padding: 6px 40px;
 }
-
-
 
 #border-line-top-left {
     position:absolute;

@@ -20,6 +20,10 @@
   <script src="js/lib/axios.min.js"></script>
   <script src="js/lib/kakao.min.js"></script>
   
+  <!-- Animation CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  
+  <!-- Client code -->
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/comments.css">
@@ -29,6 +33,11 @@
       width: 177px;
       height: 262px;
       border: 4px solid red;
+    }
+  </style>
+  <style>
+    .animate__animated.animate__pulse {
+      --animate-duration: 1.3s;
     }
   </style>
 </head>
@@ -43,6 +52,7 @@
   </div>
 </div>-->
 <div id="container"></div>
+
 <div id="capture" style="display: block">
   <div id="border">
     <div id="border-line">
@@ -57,20 +67,94 @@
     <p>갤럭시 탭을 정면에서 촬영해주세요</p>
   </div>
 </div>
-<div id="comment-div" style="display: none">
-  <div id="guide-bg" style="display:block;">
-    <div id="guide-header">
-      <div id="guide-header-message-top">AR각인 서비스</div>
-      <div id="guide-header-message-bottom">
-        <p>원하는 메세지를 AR로 꾸미고</p>
-        <p>SNS로 공유하세요</p>
+
+<div id="content-wrapper">
+  <div id="comment-div" style="display: none">
+    <div id="guide-bg" style="display:block;">
+      <div id="guide-header">
+        <div id="guide-header-message-top">AR각인 서비스</div>
+        <div id="guide-header-message-bottom">
+          <p>원하는 메세지를 AR로 꾸미고</p>
+          <p>SNS로 공유하세요</p>
+        </div>
+        <div id="guide-header-btn">
+          <button id="guide-header-btn-start" class="animate__animated animate__pulse animate__infinite">시작하기</button>
+        </div>
+        <div id="guide-header-img"><img src="assets/images/icons/guide-header.png"></div>
       </div>
-      <div id="guide-header-btn">
-        <button id="guide-header-btn-start">시작하기</button>
-      </div>
-      <div id="guide-header-img"><img src="assets/images/icons/guide-header.png"></div>
     </div>
     
+    <!--Box for leaving comments-->
+    <div id="comment-box" style="display: none">
+      <p>상대방에게 전달하고 싶은</p>
+      <p>AR메시지를 작성해주세요.</p>
+      <div id="comment-box-input">
+        <div id="comment-box-input-left">내용</div>
+        <div id="comment-box-input-right"><input type="text" id="comment-box-content" name="comment-box-content" value=""
+                                                 placeholder="(15자 이내로 간단하게 남겨주세요)" autofocus>
+        </div>
+      </div>
+      <div id="comment-box-buttons">
+        <button id="btCancel-box" type="button" class="inline">취소</button>
+        <button id="btOK-box" type="button" class="inline">저장</button>
+      </div>
+    </div>
+    
+    <!--Show after user submit comments/emoji successfully-->
+    <div id="comment-success" style="display: none">
+      <p>메세지가 저장되었습니다.</p>
+      <button id="btnSuccess" type="button" onclick="finishComment()">확인</button>
+    </div>
+    
+    <!-- kakao link-->
+    <button id="kakao-link" style="display: none;"></button>
+  </div>
+  
+  <div id="nav-message" style="display: none">
+    <p>원하는 메세지를 AR로 꾸미고<br>SNS로 공유하세요</p>
+  </div>
+  
+  <!-- kakao modal -->
+  <div id="kakao-modal-box">
+    <div id="kakao-modal-header">
+      <div id="kakao-modal-header-img">
+        <img src="assets/images/icons/kakao-img.png" width="40px" height="40px">
+      </div>
+      <div id="kakao-modal-header-text">
+        <p>카카오톡으로 친구에게</p>
+        <p>공유를 하시겠습니까?</p>
+      </div>
+    </div>
+    <div id="kakao-modal-footer">
+      <button id="kakao-modal-footer-cancel">아니오</button>
+      <button id="kakao-modal-footer-ok">예</button>
+    </div>
+  </div>
+  
+  <!-- remove modal -->
+<!--  <div id="remove-modal-bg" style="display: none">-->
+    <div id="remove-modal-box">
+      <div id="remove-modal-header">
+        <div id="remove-modal-header-text">
+          <p>모두 지우시겠습니까?</p>
+        </div>
+      </div>
+      <div id="remove-modal-footer">
+        <button id="remove-modal-footer-cancel">아니오</button>
+        <button id="remove-modal-footer-ok">예</button>
+      </div>
+    </div>
+<!--  </div>-->
+  
+  <!--Emoticons functions-->
+  <img style="display: none" id="undo" src="assets/images/icons/input-undo-mint.png"/>
+  <div id="ft-functions">
+    <div id="emotions">
+      <div class="emoji-box-item"></div>
+    </div>
+  </div>
+  
+  <div id="nav" style="display: block">
     <div id="guide-share-text">공유</div>
     <div id="guide-message-text">문자</div>
     <div id="guide-emoji-text">이모티콘</div>
@@ -80,101 +164,15 @@
     <div id="guide-message-arrow"><img src="assets/images/icons/arrow-message.png"/></div>
     <div id="guide-emoji-arrow"><img src="assets/images/icons/arrow-emoji.png"></div>
     <div id="guide-remove-arrow"><img src="assets/images/icons/arrow-remove.png"></div>
-  </div>
-  
-  <div id="nav" style="display: block">
-    <img id="nav-garbage" src="assets/images/icons/garbage.png" onclick="openRemoveModal()"/>
-    <img id="nav-kakao" src="assets/images/icons/kakao-btn.png" width="50px" alt="" onclick="openKakaoModal()"
-         style="display: block;">
-    <img id="nav-text" src="assets/images/icons/input-text-mint.png" width="50px" alt="" onclick="writeComments()">
-    <img id="nav-emo" src="assets/images/icons/input-emoji-mint.png" width="50px" alt="" onclick="createEmojiBox()">
     
-    <div id="nav-message" style="display: none">
-      <div class="nav-message-text">원하는 메세지를 AR로 꾸미고</div>
-      <div class="nav-message-text">SNS로 공유하세요</div>
-    </div>
-  </div>
-  
-  
-  
-  
-  
-  <img style="display: none" id="undo" src="assets/images/icons/input-undo-mint.png"/>
-  
-  <!--Box for leaving comments-->
-  <div id="comment-box" style="display: none">
-    <p>상대방에게 전달하고 싶은</p>
-    <p>AR메시지를 작성해주세요.</p>
-    <div id="comment-box-input">
-      <div id="comment-box-input-left">내용</div>
-      <div id="comment-box-input-right"><input type="text" id="comment-box-content" name="comment-box-content" value=""
-                                               placeholder="(15자 이내로 간단하게 남겨주세요)" autofocus>
-      </div>
-    </div>
-    <div id="comment-box-buttons">
-      <button id="btCancel-box" type="button" class="inline" onclick="cancelCommentBox()">취소</button>
-      <button id="btOK-box" type="button" class="inline" onclick="addComments()">저장</button>
-    </div>
-  </div>
-  
-  <!--Show after user submit comments/emoji successfully-->
-  <div id="comment-success" style="display: none">
-    <p>메세지가 저장되었습니다.</p>
-    <button id="btnSuccess" type="button" onclick="finishComment()">확인</button>
-  </div>
-  
-  <!--Emoticons functions-->
-  <div id="ft-functions" style="display:block;">
-    <div id="emotions" style="display: none">
-      <div class="emoji-box-item"></div>
-    </div>
-  </div>
-  
-  <!-- kakao link-->
-  <button id="kakao-link" style="display: none;"></button>
-  
-  <!-- kakao modal -->
-  <div id="kakao-modal-bg" style="display: none">
-    <div id="kakao-modal-box">
-      <div id="kakao-modal-header">
-        <div id="kakao-modal-header-img">
-          <img src="assets/images/icons/kakao-img.png" width="40px" height="40px">
-        </div>
-        <div id="kakao-modal-header-text">
-          <p>카카오톡으로 친구에게</p>
-          <p>공유를 하시겠습니까?</p>
-        </div>
-      </div>
-      <div id="kakao-modal-footer">
-        <div id="kakao-modal-footer-cancel">
-          <button>아니오</button>
-        </div>
-        <div id="kakao-modal-footer-ok">
-          <button>예</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- remove modal -->
-  <div id="remove-modal-bg" style="display: none">
-    <div id="remove-modal-box">
-      <div id="remove-modal-header">
-        <div id="remove-modal-header-text">
-          <p>모두 지우시겠습니까?</p>
-        </div>
-      </div>
-      <div id="remove-modal-footer">
-        <div id="remove-modal-footer-cancel">
-          <button>아니오</button>
-        </div>
-        <div id="remove-modal-footer-ok">
-          <button>예</button>
-        </div>
-      </div>
-    </div>
+    <img id="nav-garbage" src="assets/images/icons/garbage.png"/>
+    <img id="nav-kakao" src="assets/images/icons/kakao-btn.png" width="50px" alt="" style="display: block;">
+    <img id="nav-text" src="assets/images/icons/input-text-mint.png" width="50px" alt="">
+    <img id="nav-emo" src="assets/images/icons/input-emoji-mint.png" width="50px" alt="">
   </div>
 </div>
+
+
 
 <!--Confirm after comments/emotions-->
 <div id="confirm" style="display: none">
@@ -191,6 +189,7 @@
   <div id="share-message-text">'렛시'님이 남긴 메세지입니다.</div>
 </div>
 
+<script src="js/emoji.js"></script>
 <script src="js/main.js"></script>
 <script src="js/review.js"></script>
 <script>
