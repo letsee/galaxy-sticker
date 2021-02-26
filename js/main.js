@@ -170,7 +170,11 @@ function createDOMRenderable(value, _position = null, _rotation = null, _scale =
   let element = document.createElement('div');
   element.innerHTML = value;
 
-  return letsee.addXRElement(element.innerHTML, letsee.getEntityByUri('sticker.json'));
+  const entity = letsee.getEntityByUri('sticker.json');
+  let xrelement = letsee.createXRElement(element.innerHTML);
+  letsee.bindXRElement(xrelement, entity);
+
+  return xrelement;
 }
 
 /**
@@ -514,12 +518,8 @@ function confirmMessage(type) {
       undoEmojiBtn.style.display = 'none';
       document.getElementById('confirm').style.display = 'none';
 
-      // Remove xrelement our of Entity
-      letsee.getEntityByUri("sticker.json").children.pop();
-
-      // Remove xrelement our of DOM
-      let elem = document.querySelector(".helper");
-      elem.parentNode.removeChild(elem);
+      // Remove xrelement out of Entity ( only remove the last one )
+      letsee.removeXRElement(getLastChild());
 
       break;
   }
@@ -571,6 +571,15 @@ function writeComments(type) {
 }
 
 /**
+ * Get the last child in the list of XRElements.
+ * @returns {*}
+ */
+function getLastChild() {
+  let xrElements = letsee.getEntityByUri("sticker.json").children;
+  return xrElements[xrElements.length - 1];
+}
+
+/**
  * Undo Emoji
  */
 function undoEmoji() {
@@ -586,8 +595,8 @@ function undoEmoji() {
  */
 function removeAllRenderables() {
 
-  // Remove all xrelement our of Entity
-  letsee.getEntityByUri("sticker.json").children = [];
+  // Remove all xrelement out of Entity
+  /*letsee.getEntityByUri("sticker.json").children = [];
 
   // Remove all xrelement our of DOM
   let xrElements = document.getElementsByClassName('renderable');
@@ -603,7 +612,9 @@ function removeAllRenderables() {
     // Remove the last item
     let elem = document.querySelector(".renderable");
     if (elem) elem.parentNode.removeChild(elem);
-  }
+  }*/
+
+  letsee.getBoundsXRElement(letsee.getEntityByUri('sticker.json')).forEach((item) => letsee.removeXRElement(item));
 }
 
 /**
