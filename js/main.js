@@ -171,8 +171,8 @@ function createDOMRenderable(value, _position = null, _rotation = null, _scale =
   element.innerHTML = value;
 
   const entity = letsee.getEntityByUri('sticker.json');
-  let xrelement = letsee.createXRElement(element.innerHTML);
-  letsee.bindXRElement(xrelement, entity);
+  let xrelement = letsee.createXRElement(element.innerHTML, entity);
+  // letsee.bindXRElement(xrelement, entity);
 
   return xrelement;
 }
@@ -596,25 +596,9 @@ function undoEmoji() {
 function removeAllRenderables() {
 
   // Remove all xrelement out of Entity
-  /*letsee.getEntityByUri("sticker.json").children = [];
-
-  // Remove all xrelement our of DOM
-  let xrElements = document.getElementsByClassName('renderable');
-  if (xrElements.length > 0) {
-
-    let parentNode = xrElements[0].parentNode;
-
-    for(let i=0; i< xrElements.length; i++) {
-      // console.warn(xrElements[i]);
-      parentNode.removeChild(xrElements[i]);
-    }
-
-    // Remove the last item
-    let elem = document.querySelector(".renderable");
-    if (elem) elem.parentNode.removeChild(elem);
-  }*/
-
-  letsee.getBoundsXRElement(letsee.getEntityByUri('sticker.json')).forEach((item) => letsee.removeXRElement(item));
+  // letsee.getBoundsXRElement(letsee.getEntityByUri('sticker.json')).((item) => letsee.removeXRElement(item));
+  letsee.removeAllXRElements(letsee.getEntityByUri('sticker.json'));
+  console.warn(letsee.getEntityByUri('sticker.json'));
 }
 
 /**
