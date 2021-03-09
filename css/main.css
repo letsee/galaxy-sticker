@@ -640,8 +640,11 @@ time, mark, audio, video {
 }
 
 #confirm {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 120px;
   box-sizing: border-box;
   background-color: rgba(52, 52, 52, 0.53);
   z-index: 200;

@@ -170,7 +170,7 @@ function createDOMRenderable(value, _position = null, _rotation = null, _scale =
   let element = document.createElement('div');
   element.innerHTML = value;
 
-  const entity = letsee.getEntityByUri('sticker.json');
+  const entity = letsee.getEntityByUri('https://s-developer.letsee.io/api-tm/target-manager/target-uid/6046de9f358ef31bd651db22');
   let xrelement = letsee.createXRElement(element.innerHTML, entity);
   // letsee.bindXRElement(xrelement, entity);
 
@@ -575,7 +575,7 @@ function writeComments(type) {
  * @returns {*}
  */
 function getLastChild() {
-  let xrElements = letsee.getEntityByUri("sticker.json").children;
+  let xrElements = letsee.getEntityByUri("https://s-developer.letsee.io/api-tm/target-manager/target-uid/6046de9f358ef31bd651db22").children;
   return xrElements[xrElements.length - 1];
 }
 
@@ -597,8 +597,7 @@ function removeAllRenderables() {
 
   // Remove all xrelement out of Entity
   // letsee.getBoundsXRElement(letsee.getEntityByUri('sticker.json')).((item) => letsee.removeXRElement(item));
-  letsee.removeAllXRElements(letsee.getEntityByUri('sticker.json'));
-  console.warn(letsee.getEntityByUri('sticker.json'));
+  letsee.removeAllXRElements(letsee.getEntityByUri('https://s-developer.letsee.io/api-tm/target-manager/target-uid/6046de9f358ef31bd651db22'));
 }
 
 /**
